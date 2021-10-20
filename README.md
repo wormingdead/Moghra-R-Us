@@ -1,7 +1,7 @@
-# Mogra-R-Us
- Mod for the game [Caves of Qud](http://www.cavesofqud.com/). Adds social gambling type games that the player can participate in with NPCs.
+# Mogra-R-Us \[Work-in-Progress\]
+ Mod for the game [Caves of Qud](http://www.cavesofqud.com). Adds social gambling type games that the player can participate in with NPCs.
 
-Currently only adds one game, ***JangleSnap***.
+~~Currently only adds one game, ***JangleSnap***.~~ Currently does nothing.
 
 <br>
 
@@ -23,4 +23,4 @@ You can also install the mod from the Steam Workshop (link pending).
 
 ## Support
 
-Support requests will be handled here, on GitHub, on the Steam Workshop page (above), or in the #modding channel in the Caves of Qud Discord. Please note that feature requests are likely to be declined due to my lack of modding expertise.
+Support requests will be handled here on GitHub, on the Steam Workshop page (link above), or in the #modding channel in the Caves of Qud Discord. Please note that feature requests are likely to be declined due to lack of time and modding expertise.
