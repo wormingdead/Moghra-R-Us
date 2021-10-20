@@ -424,7 +424,7 @@
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
 	),
 	&quot;position&quot;,(a:&quot;Merchant&quot;),
-	&quot;positionOpp&quot;,(a:&quot;Wanderer&quot;),
+	&quot;ruleOpp&quot;,(a:&quot;SW No Change&quot;),
 	&quot;priority&quot;,-4,
 	&quot;effect&quot;,(dm:
 		&quot;position&quot;,&quot;Wanderer&quot;,
@@ -438,7 +438,7 @@
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
 	),
 	&quot;position&quot;,(a:&quot;Merchant&quot;),
-	&quot;positionOpp&quot;,(a:&quot;Merchant&quot;,&quot;Pilgrim&quot;,&quot;Ascendant&quot;),
+	&quot;ruleOppNegate&quot;,(a:&quot;SW No Change&quot;),
 	&quot;priority&quot;,-4,
 	&quot;effect&quot;,(dm:
 		&quot;position&quot;,&quot;Wanderer&quot;
@@ -496,5 +496,104 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="19" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="20" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="21" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="22" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
+))</tw-passagedata><tw-passagedata pid="19" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">{=
+(set: $arFPRollResults to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;FP Win&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;),
+		(a:&quot;Water Dram&quot; ,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Win&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FP Loss&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Loss&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FP Become Wanderer&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Water Dram&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Tonic&quot;     ,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FP No Change&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Water Dram&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Pilgrim&quot;
+	)
+)
+
+))</tw-passagedata><tw-passagedata pid="20" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">{=
+(set: $arSPRollResults to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;SP Win&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;&quot;,&quot;&quot;),
+		(a:&quot;&quot;,&quot;&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Win&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SP Loss&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;&quot;,&quot;&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Loss&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SP Become Wanderer&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;&quot;,&quot;&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SP No Change&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;&quot;,&quot;&quot;)
+	),
+	&quot;position&quot;,&quot;Pilgrim&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+)
+
+))</tw-passagedata><tw-passagedata pid="21" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="22" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
 
