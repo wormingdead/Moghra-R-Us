@@ -1,0 +1,500 @@
+<tw-storydata name="JangleSnap Demo" startnode="3" creator="Twine" creator-version="2.3.14" ifid="57587E33-5DB3-40C2-9EC6-46771C27ADCE" zoom="1" format="Harlowe" format-version="3.2.2" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Character Setup" tags="startup" position="200,300" size="100,100">{=
+(set: $strPlayerNameDefault to &quot;Traveler&quot;)
+(set: $strOpponentNameDefault to &quot;Unnamed Snapjaw&quot;)
+
+(put: $strPlayerNameDefault into $strPlayerName)
+(put: $strOpponentNameDefault into $strOpponentName)
+
+(set: $dmStatsDefault to (dm:&quot;STR&quot;,&quot;16&quot;,&quot;AGI&quot;,&quot;16&quot;,&quot;TOU&quot;,&quot;16&quot;,&quot;INT&quot;,&quot;16&quot;,&quot;WIS&quot;,&quot;16&quot;,&quot;EGO&quot;,&quot;16&quot;))
+
+(put: $dmStatsDefault into $dmStatsPlayer)
+(put: $dmStatsDefault into $dmStatsOpponent)
+
+(set: $arStatRange to (a:&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;10&quot;,&quot;11&quot;,&quot;12&quot;,&quot;13&quot;,&quot;14&quot;,&quot;15&quot;,&quot;16&quot;,&quot;17&quot;,&quot;18&quot;,&quot;19&quot;,&quot;20&quot;,&quot;21&quot;,&quot;22&quot;,&quot;23&quot;,&quot;24&quot;,&quot;25&quot;,&quot;26&quot;,&quot;27&quot;,&quot;28&quot;,&quot;29&quot;,&quot;30&quot;,&quot;31&quot;,&quot;32&quot;,&quot;33&quot;,&quot;34&quot;,&quot;35&quot;,&quot;36&quot;,&quot;37&quot;,&quot;38&quot;,&quot;39&quot;,&quot;40&quot;))
+
+(set: $cmGetStatMod to
+	(macro:num-type _stat, [
+		(if:(round: _stat) &gt;= 16)[
+			(output:(floor:((round: _stat) - 16) / 2))
+		](else:)[
+			(output:(ceil:((round:_stat) - 16) / 2))
+		]
+	])
+)</tw-passagedata><tw-passagedata pid="2" name="Character Editor" tags="" position="500,500" size="100,100">{=
+(box:&quot;=XXX=&quot;)[
+###Player Information
+=|=
+(align:&quot;==&gt;&quot;)[&#39;&#39;//Name//&#39;&#39;]
+=|=
+(align:&quot;&lt;==&quot;)[(input-box:2bind $strPlayerName,&quot;X&quot;,1)]
+|==|
+]
+
+(box:&quot;=XXX=&quot;)[
+###Player Attributes
+=|=
+(align:&quot;==&gt;&quot;)[
+&#39;&#39;//Strength//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Agility//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Toughness//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Intelligence//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Wisdom//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Ego//&#39;&#39; &lt;br&gt;
+]
+=|=
+(align:&quot;&lt;==&quot;)[
+(dropdown: 2bind $dmStatsPlayer&#39;s STR, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsPlayer&#39;s AGI, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsPlayer&#39;s TOU, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsPlayer&#39;s INT, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsPlayer&#39;s WIS, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsPlayer&#39;s EGO, ...$arStatRange) &lt;br&gt;
+]
+|==|
+]
+
+(box:&quot;=XXX=&quot;)[
+###Player Mutations
+* //Todo//
+]</tw-passagedata><tw-passagedata pid="3" name="Main Menu" tags="" position="400,300" size="100,100">(box:&quot;=XX=&quot;)[=
+#JangleSnap Demo
+
+[[Tutorial-&gt;Tutorial]]
+
+[[Start-&gt;New Game]]
+
+[[Edit your character-&gt;Character Editor]]
+
+[[Edit the NPC opponent-&gt;Opponent Editor]]</tw-passagedata><tw-passagedata pid="4" name="Tutorial" tags="" position="600,100" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="5" name="Opponent Editor" tags="" position="400,600" size="100,100">{=
+(box:&quot;=XXX=&quot;)[
+###Opponent Information
+=|=
+(align:&quot;==&gt;&quot;)[&#39;&#39;//Name//&#39;&#39;]
+=|=
+(align:&quot;&lt;==&quot;)[(input-box:2bind $strOpponentName,&quot;X&quot;,1)]
+|==|
+]
+
+(box:&quot;=XXX=&quot;)[
+###Opponent Attributes
+=|=
+(align:&quot;==&gt;&quot;)[
+&#39;&#39;//Strength//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Agility//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Toughness//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Intelligence//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Wisdom//&#39;&#39; &lt;br&gt;
+&#39;&#39;//Ego//&#39;&#39; &lt;br&gt;
+]
+=|=
+(align:&quot;&lt;==&quot;)[
+(dropdown: 2bind $dmStatsOpponent&#39;s STR, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsOpponent&#39;s AGI, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsOpponent&#39;s TOU, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsOpponent&#39;s INT, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsOpponent&#39;s WIS, ...$arStatRange) &lt;br&gt;
+(dropdown: 2bind $dmStatsOpponent&#39;s EGO, ...$arStatRange) &lt;br&gt;
+]
+|==|
+]
+
+(box:&quot;=XXX=&quot;)[
+###Opponent Mutations
+* //Todo//
+]</tw-passagedata><tw-passagedata pid="6" name="Game Setup" tags="startup" position="200,700" size="100,100">{=
+(set: $arDiceZonePlayer to (a:
+	($cmDieCreate:&quot;Empty&quot;),
+	($cmDieCreate:&quot;Empty&quot;)
+))
+(set: $arDiceZoneOpponent to (a:
+	($cmDieCreate:&quot;Empty&quot;),
+	($cmDieCreate:&quot;Empty&quot;)
+))
+
+(set: $arGamePositions to (a:&quot;Wanderer&quot;,&quot;Merchant&quot;,&quot;Pilgrim&quot;,&quot;Ascendant&quot;))
+
+(put: $arGamePositions&#39;s 1st into $strGamePositionPlayer)
+(put: $arGamePositions&#39;s 1st into $strGamePositionOpponent)</tw-passagedata><tw-passagedata pid="7" name="Game State" tags="" position="800,300" size="100,100">{=
+(align:&quot;=&gt;&lt;=&quot;)+(b4r:&quot;none&quot;,&quot;none&quot;,&quot;dotted&quot;)+(b4r-colour:white)+(box:&quot;=XXXXXX=&quot;)[
+=|=
+#####$strPlayerName
+=|=
+#####STR (print:STR of $dmStatsPlayer)
+=|=
+#####AGI (print:AGI of $dmStatsPlayer)
+=|=
+#####TOU (print:TOU of $dmStatsPlayer)
+=|=
+#####INT (print:INT of $dmStatsPlayer)
+=|=
+#####WIS (print:WIS of $dmStatsPlayer)
+=|=
+#####EGO (print:EGO of $dmStatsPlayer)
+|==|
+]
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=X=&quot;)[######Opponent in (print:$strGamePositionOpponent) Position
+######(print:$strOpponentName)&#39;s Side &gt;]
+
+(display:&quot;Game Board&quot;)
+
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=X=&quot;)[######&lt; Your Side
+######You are in (print:$strGamePositionPlayer) Position]
+</tw-passagedata><tw-passagedata pid="8" name="New Game" tags="" position="600,300" size="100,100">(display: &quot;Game State&quot;)
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="9" name="Game Board" tags="" position="800,500" size="100,100">{=
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXXX=&quot;)[=
+=|=
+(for: each _die, ...$arDiceZonePlayer)[
+	($cmDiePrint:_die)
+]
+=|=
+(for: each _die, ...$arDiceZoneOpponent)[
+    ($cmDiePrint:_die)
+]
+|==|</tw-passagedata><tw-passagedata pid="10" name="Pass Scavenging die" tags="" position="1000,700" size="100,100">{=
+(set: _arDiceSetScavenging to (a:
+	($cmDieCreate:&quot;Scavenging&quot;),
+	($cmDieCreate:&quot;Foraging&quot;)
+))
+
+(set: _arDiceSetForaging to (a:
+	($cmDieCreate:&quot;Foraging&quot;),
+	($cmDieCreate:&quot;Foraging&quot;)
+))
+
+(move: _arDiceSetForaging into $arDiceZonePlayer)
+(move: _arDiceSetScavenging into $arDiceZoneOpponent)
+
+
+(display: &quot;Game State&quot;)
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="11" name="Keep Scavenging die" tags="" position="1000,900" size="100,100">{=
+(set: _arDiceSetScavenging to (a:
+	($cmDieCreate:&quot;Scavenging&quot;),
+	($cmDieCreate:&quot;Foraging&quot;)
+))
+
+(set: _arDiceSetForaging to (a:
+	($cmDieCreate:&quot;Foraging&quot;),
+	($cmDieCreate:&quot;Foraging&quot;)
+))
+
+(move: _arDiceSetScavenging into $arDiceZonePlayer)
+(move: _arDiceSetForaging into $arDiceZoneOpponent)
+
+
+(display: &quot;Game State&quot;)
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="12" name="Roll Foraging" tags="" position="1000,1100" size="100,100">{=
+(set: _arDiceSetScavenging to (a:
+	($cmDieCreate:&quot;Scavenging&quot;),
+	($cmDieCreate:&quot;Foraging&quot;)
+))
+
+(set: _arDiceSetForaging to (a:
+	($cmDieCreate:&quot;Foraging&quot;),
+	($cmDieCreate:&quot;Foraging&quot;)
+))
+
+(if: (either: &quot;Scavenging&quot;, &quot;Foraging&quot;) is &quot;Scavenging&quot;)[
+	(move: _arDiceSetScavenging into $arDiceZonePlayer)
+	(move: _arDiceSetForaging into $arDiceZoneOpponent)
+]
+(else:)[
+	(move: _arDiceSetForaging into $arDiceZonePlayer)
+	(move: _arDiceSetScavenging into $arDiceZoneOpponent)
+]
+
+
+(display: &quot;Game State&quot;)
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="13" name="Game Choices" tags="" position="800,700" size="100,100">{=
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXX=&quot;)[=
+=|=
+(box:&quot;=XXX=&quot;)[###Standard Actions]
+(if: (find:_die where _die&#39;s kind is &quot;Scavenging&quot;, ...$arDiceZonePlayer)&#39;s length &gt; 0)[
+	[[Pass Scavenging die on roll-&gt;Pass Scavenging die]] &lt;br&gt;
+	[[Keep Scavenging die on roll-&gt;Keep Scavenging die]] &lt;br&gt;
+]
+(else:)[
+	[[Roll both Foraging dice-&gt;Roll Foraging]] &lt;br&gt;
+]
+=|=
+(box:&quot;=XXX=&quot;)[###Ability Actions]
+|==|</tw-passagedata><tw-passagedata pid="14" name="Dice Setup" tags="startup" position="200,500" size="100,100">{=
+(set: $arDieSidesScavenging to (a:
+	&quot;Turret&quot;,
+	&quot;Mogra&#39;Yi&quot;,
+	&quot;Shrine&quot;,
+	&quot;Spindle&quot;
+))
+(set: $arDieSidesForaging to (a:
+	&quot;Young Ivory&quot;,
+	&quot;Brinestalk&quot;,
+	&quot;Water Dram&quot;,
+	&quot;Brinestalk&quot;,
+	&quot;Water Dram&quot;,
+	&quot;Tonic&quot;
+))
+
+(set: $dmAbstractDie to (dm:
+	&quot;colour&quot;, transparent,
+	&quot;effects&quot;, (a:),
+	&quot;kind&quot;, &quot;&quot;,
+	&quot;sides&quot;, (a:),
+	&quot;value&quot;, &quot;&quot;
+))
+
+(set: $cmDieCreate to 
+	(macro: string-type _dieKind, [
+		(output-data:
+			(cond:
+				_dieKind is &quot;Scavenging&quot;,
+				$dmAbstractDie
+				+ (dm:&quot;kind&quot;,&quot;Scavenging&quot;)
+				+ (dm:&quot;sides&quot;,$arDieSidesScavenging)
+				+ (dm:&quot;colour&quot;,red)
+				,
+				_dieKind is &quot;Foraging&quot;,
+				$dmAbstractDie
+				+ (dm:&quot;kind&quot;,&quot;Foraging&quot;)
+				+ (dm:&quot;sides&quot;,$arDieSidesForaging)
+				+ (dm:&quot;colour&quot;,grey)
+				,
+				$dmAbstractDie
+			)
+		)
+	])
+)
+
+(set: $cmDieRoll to
+	(macro: dm-type _die, [
+		(output-data:
+			_die
+			+ (dm:&quot;value&quot;,(either: ..._die&#39;s sides))
+		)
+	])
+)
+
+(set: $cmDiePrint to (macro: dm-type _die, [
+	(output:)+(text-colour:_die&#39;s colour)[
+		(cond:
+			_die&#39;s value is &quot;&quot;, &quot;&quot;,
+			_die&#39;s kind + &quot; result: &quot; + _die&#39;s value
+		)
+	]])
+)</tw-passagedata><tw-passagedata pid="15" name="Foraging Wanderer Roll Results" tags="" position="1200,500" size="100,100">{=
+(set: $arFWRollResults to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;FW Loss&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
+	),
+	&quot;position&quot;,(a:&quot;Wanderer&quot;),
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Loss&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FW Become Merchant&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Water Dram&quot;,&quot;Water Dram&quot;)
+	),
+	&quot;position&quot;,(a:&quot;Wanderer&quot;),
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Merchant&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FW No Change&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Brinestalk&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Water Dram&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;),
+		(a:&quot;Water Dram&quot; ,&quot;Tonic&quot;),
+		(a:&quot;Tonic&quot;      ,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,(a:&quot;Wanderer&quot;),
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+)
+
+))</tw-passagedata><tw-passagedata pid="16" name="Scavenging Wanderer Rolls Results" tags="" position="1400,500" size="100,100">{=
+(set: $arSWRollResults to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;SW Loss&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
+		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,&quot;Wanderer&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Loss&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SW Become Pilgrim&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Shrine&quot;,&quot;Brinestalk&quot;)
+	),
+	&quot;position&quot;,&quot;Wanderer&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Pilgrim&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SW Become Ascendant&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Spindle&quot;,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,&quot;Wanderer&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Ascendant&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SW No Change&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Turret&quot;  ,&quot;Brinestalk&quot;),
+		(a:&quot;Turret&quot;  ,&quot;Tonic&quot;),
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Young Ivory&quot;),
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Shrine&quot;  ,&quot;Young Ivory&quot;),
+		(a:&quot;Shrine&quot;  ,&quot;Water Dram&quot;),
+		(a:&quot;Shrine&quot;  ,&quot;Tonic&quot;),
+		(a:&quot;Spindle&quot; ,&quot;Young Ivory&quot;),
+		(a:&quot;Spindle&quot; ,&quot;Brinestalk&quot;),
+		(a:&quot;Spindle&quot; ,&quot;Water Dram&quot;)
+	),
+	&quot;position&quot;,&quot;Wanderer&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+)
+
+))</tw-passagedata><tw-passagedata pid="17" name="Foraging Merchant Roll Results" tags="" position="1200,700" size="100,100">{=
+(set: $arFMRollResults to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;FM Win&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Water Dram&quot; ,&quot;Water Dram&quot;),
+		(a:&quot;Water Dram&quot; ,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,&quot;Merchant&quot;
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Win&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FM Loss&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
+	),
+	&quot;position&quot;,&quot;Merchant&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Loss&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FM Become Wanderer&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Water Dram&quot;),
+		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,(a:&quot;Merchant&quot;),
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FM Become Wanderer w/ Merchant Swap&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
+	),
+	&quot;position&quot;,(a:&quot;Merchant&quot;),
+	&quot;positionOpp&quot;,(a:&quot;Wanderer&quot;),
+	&quot;priority&quot;,-4,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;,
+		&quot;positionOpp&quot;,&quot;Merchant&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;FM Become Wanderer wo/ Merchant Swap&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
+	),
+	&quot;position&quot;,(a:&quot;Merchant&quot;),
+	&quot;positionOpp&quot;,(a:&quot;Merchant&quot;,&quot;Pilgrim&quot;,&quot;Ascendant&quot;),
+	&quot;priority&quot;,-4,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+),
+
+))</tw-passagedata><tw-passagedata pid="18" name="Scavenging Merchant Roll Results" tags="" position="1400,700" size="100,100">{=
+(set: $arSMRollResults to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;SM Win&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Tonic&quot;)
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SM Loss&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
+		(a:&quot;Turret&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Mogra&#39;Yi&quot;,&quot;Brinestalk&quot;)
+	),
+	&quot;position&quot;,&quot;Merchant&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Loss&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SM Become Wanderer&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
+		(a:&quot;Turret&quot;,&quot;Tonic&quot;),
+		(a:&quot;Shrine&quot;,&quot;Young Ivory&quot;),
+		(a:&quot;Shrine&quot;,&quot;Tonic&quot;),
+		(a:&quot;Spindle&quot;,&quot;Young Ivory&quot;),
+		(a:&quot;Spindle&quot;,&quot;Brinestalk&quot;),
+		(a:&quot;Spindle&quot;,&quot;Tonic&quot;)
+	),
+	&quot;position&quot;,&quot;Merchant&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Wanderer&quot;
+	)
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;SM Become Pilgrim&quot;,
+	&quot;diceResult&quot;,(a:
+		(a:&quot;Shrine&quot;,&quot;Brinestalk&quot;)
+	),
+	&quot;position&quot;,&quot;Merchant&quot;,
+	&quot;effect&quot;,(dm:
+		&quot;position&quot;,&quot;Pilgrim&quot;
+	)
+)
+
+))</tw-passagedata><tw-passagedata pid="19" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="20" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="21" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="22" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
+
