@@ -61,7 +61,7 @@
 	</data>
 	<graph id="G" edgedefault="directed">
 		<data key="d6">
-			<y:Json>{"version":"2.0.0","layout":"layout-hierarchic","config":{"noObf_useDrawingAsSketch":true,"noObf_selectedElementsIncrementally":false,"noObf_nodeToNodeDistance":10,"noObf_automaticEdgeGroupingEnabled":false,"noObf_considerNodeLabels":true,"noObf_edgeLabeling":1,"noObf_orientation":0,"noObf_edgeRouting":0},"bridge-style":"GAP","theme":{"name":"dark","version":"1.0.0"}}</y:Json>
+			<y:Json>{"version":"2.0.0","bridge-style":"GAP","theme":{"name":"dark","version":"1.0.0"}}</y:Json>
 		</data>
 		<node id="n0">
 			<data key="d0">0</data>
@@ -1582,7 +1582,7 @@ Roll]]></y:Label.Text>
 			<data key="d4">
 				<x:List>
 					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}" Style="{y:GraphMLReference 10}">
-						<y:Label.Text><![CDATA[50% (12 / 24)]]></y:Label.Text>
+						<y:Label.Text><![CDATA[46% (11 / 24)]]></y:Label.Text>
 					</y:Label>
 				</x:List>
 			</data>
@@ -1598,10 +1598,10 @@ Roll]]></y:Label.Text>
 					<data key="d4">
 						<x:List>
 							<y:Label LayoutParameter="{x:Static y:InteriorStretchLabelModel.Center}" Style="{y:GraphMLReference 15}">
-								<y:Label.Text><![CDATA[○ ● ● ○
-○ ○ ○ ○
-○ ● ● ○
-○ ● ● ○]]></y:Label.Text>
+								<y:Label.Text><![CDATA[○ ○ ● ○
+● ● ● ○
+○ ● ○ ○
+○ ○ ● ○]]></y:Label.Text>
 							</y:Label>
 						</x:List>
 					</data>
@@ -1629,7 +1629,7 @@ Roll]]></y:Label.Text>
 			<data key="d4">
 				<x:List>
 					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}" Style="{y:GraphMLReference 10}">
-						<y:Label.Text><![CDATA[13% (3 / 24)]]></y:Label.Text>
+						<y:Label.Text><![CDATA[17% (4 / 24)]]></y:Label.Text>
 					</y:Label>
 				</x:List>
 			</data>
@@ -1645,10 +1645,10 @@ Roll]]></y:Label.Text>
 					<data key="d4">
 						<x:List>
 							<y:Label LayoutParameter="{x:Static y:InteriorStretchLabelModel.Center}" Style="{y:GraphMLReference 15}">
-								<y:Label.Text><![CDATA[○ ○ ○ ●
-○ ○ ○ ○
+								<y:Label.Text><![CDATA[○ ○ ○ ○
 ○ ○ ○ ●
-○ ○ ○ ●]]></y:Label.Text>
+○ ○ ● ●
+○ ○ ○ ○]]></y:Label.Text>
 							</y:Label>
 						</x:List>
 					</data>
@@ -1676,7 +1676,7 @@ Roll]]></y:Label.Text>
 			<data key="d4">
 				<x:List>
 					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}" Style="{y:GraphMLReference 10}">
-						<y:Label.Text><![CDATA[4% (1 / 24)]]></y:Label.Text>
+						<y:Label.Text><![CDATA[8% (2 / 24)]]></y:Label.Text>
 					</y:Label>
 				</x:List>
 			</data>
@@ -1692,7 +1692,7 @@ Roll]]></y:Label.Text>
 					<data key="d4">
 						<x:List>
 							<y:Label LayoutParameter="{x:Static y:InteriorStretchLabelModel.Center}" Style="{y:GraphMLReference 15}">
-								<y:Label.Text><![CDATA[○ ○ ○ ○
+								<y:Label.Text><![CDATA[● ○ ○ ○
 ○ ○ ○ ○
 ● ○ ○ ○
 ○ ○ ○ ○]]></y:Label.Text>
@@ -1723,7 +1723,7 @@ Roll]]></y:Label.Text>
 			<data key="d4">
 				<x:List>
 					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}" Style="{y:GraphMLReference 10}">
-						<y:Label.Text><![CDATA[33% (8 / 24)]]></y:Label.Text>
+						<y:Label.Text><![CDATA[29% (7 / 24)]]></y:Label.Text>
 					</y:Label>
 				</x:List>
 			</data>
@@ -1739,10 +1739,10 @@ Roll]]></y:Label.Text>
 					<data key="d4">
 						<x:List>
 							<y:Label LayoutParameter="{x:Static y:InteriorStretchLabelModel.Center}" Style="{y:GraphMLReference 15}">
-								<y:Label.Text><![CDATA[● ○ ○ ○
-● ● ● ●
+								<y:Label.Text><![CDATA[○ ● ○ ●
 ○ ○ ○ ○
-● ○ ○ ○]]></y:Label.Text>
+○ ○ ○ ○
+● ● ○ ●]]></y:Label.Text>
 							</y:Label>
 						</x:List>
 					</data>
