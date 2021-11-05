@@ -45,7 +45,7 @@ If no verdict can be made from each player's result, each player takes the dice 
 #### Good ideas
 
 - The Spindle
-- Salt Dune (Mogra'Yi)
+- Salt Dune (Moghra'Yi)
 - Water Dram
 - Tonic
 - Brinestalk
@@ -79,7 +79,7 @@ If no verdict can be made from each player's result, each player takes the dice 
 
 - Four-sided Die
   1. Turret
-  2. Mogra'Yi (Salt Desert/Six Day Stilt)
+  2. Moghra'Yi (Salt Desert/Six Day Stilt)
   3. Sultan/Shrine
   4. The Spindle
 
