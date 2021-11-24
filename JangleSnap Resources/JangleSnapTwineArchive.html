@@ -1,105 +1,97 @@
-<tw-storydata name="JangleSnap Demo" startnode="3" creator="Twine" creator-version="2.3.15" ifid="57587E33-5DB3-40C2-9EC6-46771C27ADCE" zoom="1" format="Harlowe" format-version="3.2.2" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Character Setup" tags="startup" position="200,300" size="100,100">{=
-(set: $strPlayerNameDefault to &quot;Traveler&quot;)
-(set: $strOpponentNameDefault to &quot;Unnamed Snapjaw&quot;)
+<tw-storydata name="JangleSnap Demo" startnode="2" creator="Twine" creator-version="2.3.15" ifid="57587E33-5DB3-40C2-9EC6-46771C27ADCE" zoom="1" format="Harlowe" format-version="3.2.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-story select {
+  background-color: black;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Character Setup" tags="startup" position="200,300" size="100,100">{=
+(set: $cmCreatureCreate to (macro:
+	str-type _name,
+	array-type _stats,
+	array-type _mutations,
+	array-type _cybernetics,
+[
+	(output-data:(dm:
+		&quot;name&quot;,_name,
+		&quot;stats&quot;,_stats,
+		&quot;mutations&quot;,_mutations,
+		&quot;cybernetics&quot;,_cybernetics
+	))
+]))
 
-(put: $strPlayerNameDefault into $strPlayerName)
-(put: $strOpponentNameDefault into $strOpponentName)
+(set: $strPCNameDefault to &quot;Traveler&quot;)
+(set: $strNPCNameDefault to &quot;Unnamed Snapjaw&quot;)
 
-(set: $dmStatsDefault to
-(dm:&quot;STR&quot;,&quot;16&quot;,&quot;AGI&quot;,&quot;16&quot;,&quot;TOU&quot;,&quot;16&quot;,&quot;INT&quot;,&quot;16&quot;,&quot;WIS&quot;,&quot;16&quot;,&quot;EGO&quot;,&quot;16&quot;))
+(set: $arStatsDefault to (a:
+	(dm:
+		&quot;name&quot;,&quot;Strength&quot;,
+		&quot;label&quot;,&quot;STR&quot;,
+		&quot;value&quot;,&quot;16&quot;
+	),
+	(dm:
+		&quot;name&quot;,&quot;Agility&quot;,
+		&quot;label&quot;,&quot;AGI&quot;,
+		&quot;value&quot;,&quot;16&quot;
+	),
+	(dm:
+		&quot;name&quot;,&quot;Toughness&quot;,
+		&quot;label&quot;,&quot;TOU&quot;,
+		&quot;value&quot;,&quot;16&quot;
+	),
+	(dm:
+		&quot;name&quot;,&quot;Intelligence&quot;,
+		&quot;label&quot;,&quot;INT&quot;,
+		&quot;value&quot;,&quot;16&quot;
+	),
+	(dm:
+		&quot;name&quot;,&quot;Wisdom&quot;,
+		&quot;label&quot;,&quot;WIS&quot;,
+		&quot;value&quot;,&quot;16&quot;
+	),
+	(dm:
+		&quot;name&quot;,&quot;Ego&quot;,
+		&quot;label&quot;,&quot;EGO&quot;,
+		&quot;value&quot;,&quot;16&quot;
+	)
+))
 
-(put: $dmStatsDefault into $dmStatsPlayer)
-(put: $dmStatsDefault into $dmStatsOpponent)
-
-(set: $arStatRange to
+(set: $arStatValueRange to
 (a:&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;10&quot;,&quot;11&quot;,&quot;12&quot;,&quot;13&quot;,&quot;14&quot;,&quot;15&quot;,&quot;16&quot;,&quot;17&quot;,&quot;18&quot;,&quot;19&quot;,&quot;20&quot;,&quot;21&quot;,&quot;22&quot;,&quot;23&quot;,&quot;24&quot;,&quot;25&quot;,&quot;26&quot;,&quot;27&quot;,&quot;28&quot;,&quot;29&quot;,&quot;30&quot;,&quot;31&quot;,&quot;32&quot;,&quot;33&quot;,&quot;34&quot;,&quot;35&quot;,&quot;36&quot;,&quot;37&quot;,&quot;38&quot;,&quot;39&quot;,&quot;40&quot;))
 
-(set: $cmGetStatMod to
+(set: $cmGetStatValueMod to
 (macro: num-type _stat, [
 	(if: _stat &gt;= 16)[(output-data:(floor:(_stat - 16) / 2))]
 	(else:)[(output-data:(ceil:(_stat - 16) / 2))]
-]))</tw-passagedata><tw-passagedata pid="2" name="Character Editor" tags="" position="500,500" size="100,100">{=
-(box:&quot;=XXX=&quot;)[
-###Player Information
-=|=
-(align:&quot;==&gt;&quot;)[&#39;&#39;//Name//&#39;&#39;]
-=|=
-(align:&quot;&lt;==&quot;)[(input-box:2bind $strPlayerName,&quot;X&quot;,1)]
-|==|
-]
+]))
 
-(box:&quot;=XXX=&quot;)[
-###Player Attributes
-=|=
-(align:&quot;==&gt;&quot;)[
-&#39;&#39;//Strength//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Agility//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Toughness//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Intelligence//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Wisdom//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Ego//&#39;&#39; &lt;br&gt;
-]
-=|=
-(align:&quot;&lt;==&quot;)[
-(dropdown: 2bind $dmStatsPlayer&#39;s STR, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsPlayer&#39;s AGI, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsPlayer&#39;s TOU, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsPlayer&#39;s INT, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsPlayer&#39;s WIS, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsPlayer&#39;s EGO, ...$arStatRange) &lt;br&gt;
-]
-|==|
-]
-
-(box:&quot;=XXX=&quot;)[
-###Player Mutations
-* //Todo//
-]</tw-passagedata><tw-passagedata pid="3" name="Main Menu" tags="" position="400,300" size="100,100">(box:&quot;=XX=&quot;)[=
+(set: $dmCreatures to (dm:
+	&quot;pc&quot;,
+		($cmCreatureCreate:
+			$strPCNameDefault,
+			$arStatsDefault,
+			(a:),
+			(a:)
+		)
+	,
+	&quot;npc&quot;,
+		($cmCreatureCreate:
+			$strNPCNameDefault,
+			$arStatsDefault,
+			(a:),
+			(a:)
+		)
+))</tw-passagedata><tw-passagedata pid="2" name="Main Menu" tags="" position="400,300" size="100,100">(box:&quot;=XX=&quot;)[=
 #JangleSnap Demo
 
-[[Tutorial-&gt;Tutorial]]
+[TODO] Tutorial
 
 [[Start-&gt;New Game]]
 
-[[Edit your character-&gt;Character Editor]]
+(link-reveal-goto:
+	&quot;Edit your character&quot;,
+	&quot;Creature Editor&quot;
+)[(set: $strEditorTarget to &quot;pc&quot;)]
 
-[[Edit the NPC opponent-&gt;Opponent Editor]]</tw-passagedata><tw-passagedata pid="4" name="Tutorial" tags="" position="600,99" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="5" name="Opponent Editor" tags="" position="400,600" size="100,100">{=
-(box:&quot;=XXX=&quot;)[
-###Opponent Information
-=|=
-(align:&quot;==&gt;&quot;)[&#39;&#39;//Name//&#39;&#39;]
-=|=
-(align:&quot;&lt;==&quot;)[(input-box:2bind $strOpponentName,&quot;X&quot;,1)]
-|==|
-]
-
-(box:&quot;=XXX=&quot;)[
-###Opponent Attributes
-=|=
-(align:&quot;==&gt;&quot;)[
-&#39;&#39;//Strength//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Agility//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Toughness//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Intelligence//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Wisdom//&#39;&#39; &lt;br&gt;
-&#39;&#39;//Ego//&#39;&#39; &lt;br&gt;
-]
-=|=
-(align:&quot;&lt;==&quot;)[
-(dropdown: 2bind $dmStatsOpponent&#39;s STR, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsOpponent&#39;s AGI, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsOpponent&#39;s TOU, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsOpponent&#39;s INT, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsOpponent&#39;s WIS, ...$arStatRange) &lt;br&gt;
-(dropdown: 2bind $dmStatsOpponent&#39;s EGO, ...$arStatRange) &lt;br&gt;
-]
-|==|
-]
-
-(box:&quot;=XXX=&quot;)[
-###Opponent Mutations
-* //Todo//
-]</tw-passagedata><tw-passagedata pid="6" name="Game Setup" tags="startup" position="200,700" size="100,100">{=
+(link-reveal-goto:
+	&quot;Edit your opponent&quot;,
+	&quot;Creature Editor&quot;
+)[(set: $strEditorTarget to &quot;npc&quot;)]</tw-passagedata><tw-passagedata pid="3" name="Game Setup" tags="startup" position="200,700" size="100,100">{=
 (set: $arGamePositions to
 (a:
 	&quot;Wanderer&quot;,
@@ -145,7 +137,7 @@
 		_diceSet is 1st of $arGameDiceSets,2nd of $arGameDiceSets
 		_diceSet is 2nd of $arGameDiceSets,1st of $arGameDiceSets
 	))
-]))</tw-passagedata><tw-passagedata pid="7" name="Game State" tags="" position="800,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="4" name="Game State" tags="" position="800,300" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(b4r:&quot;none&quot;,&quot;none&quot;,&quot;dotted&quot;)+(b4r-colour:white)+(box:&quot;=XXXXXX=&quot;)[
 =|=
 #####$strPlayerName
@@ -169,8 +161,14 @@
 (display:&quot;Game Board&quot;)
 
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=X=&quot;)[######&lt; Your Side
-######You are in (print:$strGamePositionPlayer) Position]</tw-passagedata><tw-passagedata pid="8" name="New Game" tags="" position="600,300" size="100,100">(display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="9" name="Game Board" tags="" position="800,500" size="100,100">{=
+######You are in (print:$strGamePositionPlayer) Position]</tw-passagedata><tw-passagedata pid="5" name="New Game" tags="" position="600,300" size="100,100">{=
+(set: $dmGameState to ($cmGameStateCreate:
+	$dmPlayerCreature,
+	$dmNPCCreature
+))
+
+(display: &quot;Game UI&quot;)
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="6" name="Game Board" tags="" position="800,500" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXXX=&quot;)[=
 =|=
 (for: each _die, ...$arDiceZonePlayer)[
@@ -180,7 +178,7 @@
 (for: each _die, ...$arDiceZoneOpponent)[
 ($cmDiePrint:_die)
 ]
-|==|</tw-passagedata><tw-passagedata pid="10" name="Pass Scavenging die" tags="" position="1000,700" size="100,100">{=
+|==|</tw-passagedata><tw-passagedata pid="7" name="Pass Scavenging die" tags="" position="1000,700" size="100,100">{=
 (set: _arDiceSetScavenging to (a:
 	($cmDieCreate:&quot;Scavenging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
@@ -196,7 +194,7 @@
 
 
 (display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="11" name="Keep Scavenging die" tags="" position="1000,900" size="100,100">{=
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="8" name="Keep Scavenging die" tags="" position="1000,900" size="100,100">{=
 (set: _arDiceSetScavenging to (a:
 	($cmDieCreate:&quot;Scavenging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
@@ -212,7 +210,7 @@
 
 
 (display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="12" name="Roll Foraging" tags="" position="1000,1100" size="100,100">{=
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="9" name="Roll Foraging" tags="" position="1000,1100" size="100,100">{=
 (set: _arDiceSetScavenging to (a:
 	($cmDieCreate:&quot;Scavenging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
@@ -234,7 +232,7 @@
 
 
 (display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="13" name="Game Choices" tags="" position="800,700" size="100,100">{=
+(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="10" name="Game Choices" tags="" position="800,700" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXX=&quot;)[=
 =|=
 (box:&quot;=XXX=&quot;)[###Standard Actions]
@@ -247,7 +245,7 @@
 ]
 =|=
 (box:&quot;=XXX=&quot;)[###Ability Actions]
-|==|</tw-passagedata><tw-passagedata pid="14" name="Dice Setup" tags="startup" position="200,500" size="100,100">{=
+|==|</tw-passagedata><tw-passagedata pid="11" name="Dice Setup" tags="startup" position="200,500" size="100,100">{=
 (set: $arDieSidesD4 to
 (a:
 	&quot;Turret&quot;   ,
@@ -318,7 +316,7 @@
 	(output-data:
 		(sorted:(altered:_die via ($cmDieResult:_die), ..._dice))
 	)
-]))</tw-passagedata><tw-passagedata pid="15" name="Foraging Wanderer Roll Results" tags="" position="1200,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="12" name="Foraging Wanderer Roll Results" tags="" position="1200,500" size="100,100">{=
 (set: $arFWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FW Loss&quot;,
@@ -363,7 +361,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="16" name="Scavenging Wanderer Rolls Results" tags="" position="1400,500" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="13" name="Scavenging Wanderer Rolls Results" tags="" position="1400,500" size="100,100">{=
 (set: $arSWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SW Loss&quot;,
@@ -425,7 +423,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="17" name="Foraging Merchant Roll Results" tags="" position="1200,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="14" name="Foraging Merchant Roll Results" tags="" position="1200,700" size="100,100">{=
 (set: $arFMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
@@ -504,7 +502,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="18" name="Scavenging Merchant Roll Results" tags="" position="1400,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="15" name="Scavenging Merchant Roll Results" tags="" position="1400,700" size="100,100">{=
 (set: $arSMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
@@ -563,7 +561,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="19" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="16" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">{=
 (set: $arFPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
@@ -619,7 +617,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="20" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="17" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">{=
 (set: $arSPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
@@ -681,7 +679,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="21" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="18" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">{=
 (set: $arFARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
@@ -726,7 +724,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="22" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="19" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">{=
 (set: $arSARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
@@ -777,7 +775,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="23" name="Result Rule Examiner" tags="" position="1200,300" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="20" name="Result Rule Examiner" tags="" position="1200,300" size="100,100">{=
 (set: $dmRecursionHelper to
 $dmRecursionHelper + (dm:
 &quot;resultRuleCond&quot;,
@@ -837,7 +835,7 @@ $dmRecursionHelper + (dm:
 		_ruleField&#39;s name is &quot;positions&quot;,
 			_playerState&#39;s position is in _ruleField&#39;s value
 	))
-])))</tw-passagedata><tw-passagedata pid="24" name="Recursion Setup" tags="startup" position="200,900" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="21" name="Recursion Setup" tags="startup" position="200,900" size="100,100">{=
 &lt;!--
 Harlowe doesn&#39;t support recursion by default, as variable names are not bound until after the declaration is checked for correctness. This means that macros cannot refer to themselves or other macros that have yet to be declared.
 
@@ -868,7 +866,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 --&gt;
 
-(set: $dmRecursionHelper to (dm:))</tw-passagedata><tw-passagedata pid="25" name="Result Rule Applier" tags="" position="1400,300" size="100,100">{=
+(set: $dmRecursionHelper to (dm:))</tw-passagedata><tw-passagedata pid="22" name="Result Rule Applier" tags="" position="1400,300" size="100,100">{=
 (set: _cmRuleEffectApp to
 (macro:
 	datamap-type _ruleEffect,
@@ -888,7 +886,6 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	datamap-type _gameState
 [
 	(set: _ruleEffects to _resultRule&#39;s effects)
-	(set: _playerState to _resultRule&#39;s diceSet of _gameState)
 	(output-data:(folded:
 		_effectField making _gameState via (cond:
 			_effectField&#39;s name is &quot;opponent&quot;,
@@ -908,5 +905,195 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		_gameState,
 		...(dataentries:_ruleEffects)
 	))
-]))</tw-passagedata></tw-storydata>
+]))</tw-passagedata><tw-passagedata pid="23" name="Choice Rules" tags="" position="1600,500" size="100,100">{=
+(set: $arRollChoiceRules to (a:
+(dm:
+	&quot;ruleName&quot;,&quot;Foraging NoCheat&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;mutations&quot;,(a:),
+	&quot;cybernetics&quot;,(a:),
+	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
+	&quot;effects&quot;,(a:
+		(dm:
+			&quot;area&quot;,&quot;player&quot;,
+			&quot;rollType&quot;,&quot;fairRoll&quot;,
+			&quot;diceType&quot;,&quot;foraging&quot;
+		),
+		(dm:
+			&quot;area&quot;,&quot;opponent&quot;,
+			&quot;rollType&quot;,&quot;fairRoll&quot;,
+			&quot;diceType&quot;,&quot;foraging&quot;
+		)
+	),
+	&quot;description&quot;,&quot;Roll foraging die in each area&quot;
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;Pass Scavenging NoCheat&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;mutations&quot;,(a:),
+	&quot;cybernetics&quot;,(a:),
+	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
+	&quot;effects&quot;,(a:
+		(dm:
+			&quot;area&quot;,&quot;player&quot;,
+			&quot;rollType&quot;,&quot;fairRoll&quot;,
+			&quot;diceType&quot;,&quot;foraging&quot;
+		),
+		(dm:
+			&quot;area&quot;,&quot;opponent&quot;,
+			&quot;rollType&quot;,&quot;fairRoll&quot;,
+			&quot;diceType&quot;,&quot;scavenging&quot;
+		)
+	),
+	&quot;description&quot;,&quot;Pass scavenging die, roll foraging&quot;
+),
+
+(dm:
+	&quot;ruleName&quot;,&quot;Keep Scavenging NoCheat&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;mutations&quot;,(a:),
+	&quot;cybernetics&quot;,(a:),
+	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
+	&quot;effects&quot;,(a:
+		(dm:
+			&quot;area&quot;,&quot;player&quot;,
+			&quot;rollType&quot;,&quot;fairRoll&quot;,
+			&quot;diceType&quot;,&quot;scavenging&quot;
+		),
+		(dm:
+			&quot;area&quot;,&quot;opponent&quot;,
+			&quot;rollType&quot;,&quot;fairRoll&quot;,
+			&quot;diceType&quot;,&quot;foraging&quot;
+		),
+	),
+	&quot;description&quot;,&quot;Keep scavenging, pass foraging die&quot;
+)
+
+))</tw-passagedata><tw-passagedata pid="24" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
+(set: $cmFairRollCalc to
+(macro: datamap-type _playerState, [
+	(set: _dexM to ($cmGetStatValueMod:_playerState&#39;s stat&#39;s DEX))
+	(output-data: (cond:
+		_dexM &gt;= 1, 1.0,
+		(6 + _dexM) * (6 + _dexM) / (6 * 6 + 1)
+		+ 0.6 * (1.0 - (6 + _dexM) * (6 + _dexM) / (6 * 6 + 1))
+	))
+]))
+
+(set: $cmRollOddsCalc to
+(macro:
+	datamap-type _choiceRule,
+	datamap-type _playerState,
+[
+	(set: _stat to _playerState&#39;s stats)
+	(output-data:(folded:_rollEffect making _odds via
+		(cond:
+			_rollEffect&#39;s rollType is &quot;fairRoll&quot;,
+				($cmFairRollCalc:_playerState) * _odds
+		),
+		1.0,
+		..._choiceRule&#39;s effects
+	))
+]))
+
+(set: $cmChoiceLinkCreate to
+(macro:
+	datamap-type _choiceRule,
+	datamap-type _pcState,
+[
+	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pcState)) * 100)
+	(set: _oddsStr to (cond:
+		_odds &lt; 100, &quot; [&quot; + (str:_odds) + &quot;%]&quot;,
+		&quot;&quot;
+	))
+
+	(output:)[
+		(link-reveal-goto:
+			_choiceRule&#39;s description + _oddsStr,
+			&quot;Roll Choice Handler&quot;
+		)[(set: $dmPCRollChoice to _choiceRule)]
+	]
+]))</tw-passagedata><tw-passagedata pid="25" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
+(set: $cmRoll to
+(macro:
+	datamap-type _choiceRule,
+	datamap-type _gameState,
+	bool-type _pc,
+[
+	(unpack: _gameState into
+		(dm: _gameState&#39;s pc,(dm: &quot;dice&quot;, array-type _pcDice))
+	)
+	(output-data:
+		
+	)
+]))
+
+(set: $cmRollChoiceHandler to
+(macro: [
+	(set: $dmGameState to ($cmRoll:$dmPCRollChoice,$dmGameState,true))
+	(set: $dmGameState to ($cmRoll:
+		(either:($cmRollChoices:$arRollChoiceRules,$dmGameState,false)),
+		$dmGameState,
+		false
+	))
+]))</tw-passagedata><tw-passagedata pid="26" name="Creature Editor" tags="" position="400,500" size="100,100">{=
+($cmEditorUICreate:$strEditorTarget of $dmCreatures, $strEditorTarget)</tw-passagedata><tw-passagedata pid="27" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
+(set: $cmEditorUICreate to (macro:
+	datamap-type _creature,
+	string-type _creatureLabel,
+[
+(output:)[
+(box:&quot;=XXX=&quot;)[
+(box:&quot;=X=&quot;)[###Information]
+=|=
+(box:&quot;=XX=&quot;)[&#39;&#39;//Name//&#39;&#39;]
+=|=
+(box:&quot;=XXXX=&quot;)[(input-box:2bind _creature&#39;s name,&quot;X&quot;,1)]
+|==|
+]
+
+(box:&quot;=XXX=&quot;)[
+(box:&quot;=X=&quot;)[###Attributes]
+=|=
+(box:&quot;=XX=&quot;)[
+	(for: each _stat, ..._creature&#39;s stats)[
+		&#39;&#39;//(print:_stat&#39;s name)//&#39;&#39; &lt;br&gt;
+	]
+]
+=|=
+(box:&quot;=XX=&quot;)[
+	(for: each _stat, ..._creature&#39;s stats)[
+		(dropdown: 2bind _stat&#39;s value, ...$arStatValueRange) &lt;br&gt;
+	]
+]
+|==|
+]
+
+=|=
+(box:&quot;=XXXXX=&quot;)[
+(box:&quot;=XX=&quot;)[###Mutations]
+* //Todo//
+]
+=|=
+(box:&quot;=XXXXX=&quot;)[
+(box:&quot;=XX=&quot;)[###Cybernetics]
+* //Todo//
+]
+|==|
+
+(box:&quot;=XXX=&quot;)[
+=|=
+(link-reveal-goto:
+	&quot;Save &amp; Return&quot;,
+	&quot;Main Menu&quot;
+)[(set: $dmCreatures to $dmCreatures + (dm:_creatureLabel,_creature))]
+=|=
+(link-goto:
+	&quot;Cancel&quot;,
+	&quot;Main Menu&quot;
+)
+|==|
+]
+]]))</tw-passagedata></tw-storydata>
 
