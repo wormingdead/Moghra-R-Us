@@ -3,12 +3,14 @@
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Character Setup" tags="startup" position="200,300" size="100,100">{=
 (set: $cmCreatureCreate to (macro:
 	str-type _name,
+	str-type _label,
 	array-type _stats,
 	array-type _mutations,
 	array-type _cybernetics,
 [
 	(output-data:(dm:
 		&quot;name&quot;,_name,
+		&quot;label&quot;,_label,
 		&quot;stats&quot;,_stats,
 		&quot;mutations&quot;,_mutations,
 		&quot;cybernetics&quot;,_cybernetics
@@ -63,6 +65,7 @@
 	&quot;pc&quot;,
 		($cmCreatureCreate:
 			$strPCNameDefault,
+			&quot;pc&quot;,
 			$arStatsDefault,
 			(a:),
 			(a:)
@@ -71,6 +74,7 @@
 	&quot;npc&quot;,
 		($cmCreatureCreate:
 			$strNPCNameDefault,
+			&quot;npc&quot;,
 			$arStatsDefault,
 			(a:),
 			(a:)
@@ -1037,11 +1041,8 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		false
 	))
 ]))</tw-passagedata><tw-passagedata pid="26" name="Creature Editor" tags="" position="400,500" size="100,100">{=
-($cmEditorUICreate:$strEditorTarget of $dmCreatures, $strEditorTarget)</tw-passagedata><tw-passagedata pid="27" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
-(set: $cmEditorUICreate to (macro:
-	datamap-type _creature,
-	string-type _creatureLabel,
-[
+($cmEditorUICreate:$strEditorTarget of $dmCreatures)</tw-passagedata><tw-passagedata pid="27" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
+(set: $cmEditorUICreate to (macro: datamap-type _creature, [
 (output:)[
 (box:&quot;=XXX=&quot;)[
 (box:&quot;=X=&quot;)[###Information]
@@ -1089,7 +1090,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 (link-reveal-goto:
 	&quot;Save &amp; Return&quot;,
 	&quot;Main Menu&quot;
-)[(set: $dmCreatures to $dmCreatures + (dm:_creatureLabel,_creature))]
+)[(set: $dmCreatures to $dmCreatures + (dm:_creature&#39;s label,_creature))]
 =|=
 (link-goto:
 	&quot;Cancel&quot;,
