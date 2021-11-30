@@ -1,22 +1,6 @@
 <tw-storydata name="JangleSnap Demo" startnode="2" creator="Twine" creator-version="2.3.15" ifid="57587E33-5DB3-40C2-9EC6-46771C27ADCE" zoom="1" format="Harlowe" format-version="3.2.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-story select {
   background-color: black;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Character Setup" tags="startup" position="200,300" size="100,100">{=
-(set: $cmCreatureCreate to (macro:
-	str-type _name,
-	str-type _label,
-	array-type _stats,
-	array-type _mutations,
-	array-type _cybernetics,
-[
-	(output-data:(dm:
-		&quot;name&quot;,_name,
-		&quot;label&quot;,_label,
-		&quot;stats&quot;,_stats,
-		&quot;mutations&quot;,_mutations,
-		&quot;cybernetics&quot;,_cybernetics
-	))
-]))
-
 (set: $strPCNameDefault to &quot;Traveler&quot;)
 (set: $strNPCNameDefault to &quot;Unnamed Snapjaw&quot;)
 
@@ -53,12 +37,31 @@
 	)
 ))
 
-(set: $arStatValueRange to (altered:_v via (str:_v), ...(range:3,40)))
+(set: $arStatValueRange to (altered: _v via (str:_v), ...(range:3,40)))
+
+(set: $cmCreatureCreate to (macro:
+	str-type _name,
+	str-type _label,
+	array-type _stats,
+	array-type _mutations,
+	array-type _cybernetics,
+[
+	(output-data:(dm:
+		&quot;name&quot;,_name,
+		&quot;label&quot;,_label,
+		&quot;stats&quot;,_stats,
+		&quot;mutations&quot;,_mutations,
+		&quot;cybernetics&quot;,_cybernetics
+	))
+]))
 
 (set: $cmGetStatValueMod to
-(macro: num-type _stat, [
-	(if: _stat &gt;= 16)[(output-data:(floor:(_stat - 16) / 2))]
-	(else:)[(output-data:(ceil:(_stat - 16) / 2))]
+(macro: datamap-type _stat, [
+	(set: _v to (num:_stat&#39;s value))
+	(output-data:(cond:
+		_v &gt;= 16,(floor:(_v - 16) / 2),
+		(ceil:(_v - 16) / 2)
+	))
 ]))
 
 (set: $dmCreatures to (dm:
@@ -166,8 +169,8 @@
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=X=&quot;)[######&lt; Your Side
 ######You are in (print:$strGamePositionPlayer) Position]</tw-passagedata><tw-passagedata pid="5" name="New Game" tags="" position="600,300" size="100,100">{=
 (set: $dmGameState to ($cmGameStateCreate:
-	$dmPlayerCreature,
-	$dmNPCCreature
+	$dmCreatures&#39;s pc,
+	$dmCreatures&#39;s npc
 ))
 
 (display: &quot;Game UI&quot;)
@@ -783,8 +786,8 @@
 $dmRecursionHelper + (dm:
 &quot;resultRuleCond&quot;,
 (macro:
-	datamap-type _resultRule,
 	datamap-type _gameState,
+	datamap-type _resultRule,
 [
 	(set: _cmRuleFieldMatch to $dmRecursionHelper&#39;s ruleFieldMatch)
 	(set: _ruleDiceSet to _resultRule&#39;s diceSet)
@@ -794,8 +797,8 @@ $dmRecursionHelper + (dm:
 			_ruleField&#39;s name is &quot;diceSet&quot;,true,
 			_ruleField&#39;s name is &quot;effects&quot;,true,
 			(_cmRuleFieldMatch:
-				_ruleField,
 				_gameState,
+				_ruleField,
 				_ruleDiceSet
 		)) and _cond,
 		true,
@@ -820,8 +823,8 @@ $dmRecursionHelper + (dm:
 $dmRecursionHelper + (dm:
 &quot;ruleFieldMatch&quot;,
 (macro:
-	datamap-type _ruleField,
 	datamap-type _gameState,
+	datamap-type _ruleField,
 	string-type _ruleDiceSet
 [
 	(set: _cmResultRuleCond to $dmRecursionHelper&#39;s resultRuleCond)
@@ -829,9 +832,9 @@ $dmRecursionHelper + (dm:
 
 	(output-data:(cond:
 		_ruleField&#39;s name is &quot;opponent&quot;,(_cmResultRuleCond:
+			_gameState,
 			_ruleField&#39;s value
-			+ (dm:&quot;diceSet&quot;,($cmDiceSetInvert:_ruleDiceSet)),
-			_gameState
+				+ (dm:&quot;diceSet&quot;,($cmDiceSetInvert:_ruleDiceSet))
 		),
 		_ruleField&#39;s name is &quot;diceResults&quot;,
 			(_cmDiceResultsComp:_ruleField&#39;s value,_playerState&#39;s dice),
@@ -872,8 +875,8 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 (set: $dmRecursionHelper to (dm:))</tw-passagedata><tw-passagedata pid="22" name="Result Rule Applier" tags="" position="1400,300" size="100,100">{=
 (set: _cmRuleEffectApp to
 (macro:
-	datamap-type _ruleEffect,
 	datamap-type _gameState,
+	datamap-type _ruleEffect,
 	string-type _ruleDiceSet,
 [
 	(set: _playerState to _ruleDiceSet of _gameState)
@@ -885,8 +888,8 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 (set: $cmResultRuleApply to
 (macro:
+	datamap-type _gameState,
 	datamap-type _resultRule,
-	datamap-type _gameState
 [
 	(set: _ruleEffects to _resultRule&#39;s effects)
 	(output-data:(folded:
@@ -975,8 +978,12 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 ))</tw-passagedata><tw-passagedata pid="24" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
 (set: $cmFairRollCalc to
-(macro: datamap-type _playerState, [
-	(set: _dexM to ($cmGetStatValueMod:_playerState&#39;s stat&#39;s DEX))
+(macro: datamap-type _creatureState, [
+	(set: _dexM to ($cmGetStatValueMod:
+		1st of (find:_stat where _stat&#39;s label is &quot;DEX&quot;,
+			_creatureState&#39;s stats
+		)
+	))
 	(output-data: (cond:
 		_dexM &gt;= 1, 1.0,
 		(6 + _dexM) * (6 + _dexM) / (6 * 6 + 1)
@@ -989,8 +996,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	datamap-type _choiceRule,
 	datamap-type _playerState,
 [
-	(set: _stat to _playerState&#39;s stats)
-	(output-data:(folded:_rollEffect making _odds via
+	(output-data:(folded: _rollEffect making _odds via
 		(cond:
 			_rollEffect&#39;s rollType is &quot;fairRoll&quot;,
 				($cmFairRollCalc:_playerState) * _odds
@@ -1020,27 +1026,37 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 ]))</tw-passagedata><tw-passagedata pid="25" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
 (set: $cmRoll to
 (macro:
-	datamap-type _choiceRule,
 	datamap-type _gameState,
-	bool-type _pc,
+	datamap-type _choiceRule,
+	str-type _creatureLabel,
 [
-	(unpack: _gameState into
-		(dm: _gameState&#39;s pc,(dm: &quot;dice&quot;, array-type _pcDice))
-	)
+	(set: _dice to (_gameState&#39;s (_gameState&#39;s _creatureLabel))&#39;s dice)
 	(output-data:
 		
 	)
 ]))
 
 (set: $cmRollChoiceHandler to
-(macro: [
-	(set: $dmGameState to ($cmRoll:$dmPCRollChoice,$dmGameState,true))
-	(set: $dmGameState to ($cmRoll:
-		(either:($cmRollChoices:$arRollChoiceRules,$dmGameState,false)),
-		$dmGameState,
-		false
+(macro:
+	datamap-type _gameState,
+	datamap-type _pcRollChoice,
+	datamap-type _npcRollChoice,
+[
+	(output-data:(folded:
+		_args making _state via ($cmRoll:_state, ..._args),
+		_gameState,
+		...(a:
+			(a:_pcRollChoice ,&quot;pc&quot; ),
+			(a:_npcRollChoice,&quot;npc&quot;)
+		)
 	))
-]))</tw-passagedata><tw-passagedata pid="26" name="Creature Editor" tags="" position="400,500" size="100,100">{=
+]))
+
+(set: $dmGameState to ($cmRollChoiceHandler:
+	$dmGameState,
+	$dmPCRollChoice,
+	($cmNPCRollChooser:$dmGameState,$arRollChoiceRules)
+))</tw-passagedata><tw-passagedata pid="26" name="Creature Editor" tags="" position="400,500" size="100,100">{=
 ($cmEditorUICreate:$strEditorTarget of $dmCreatures)</tw-passagedata><tw-passagedata pid="27" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
 (set: $cmEditorUICreate to (macro: datamap-type _creature, [
 (output:)[
