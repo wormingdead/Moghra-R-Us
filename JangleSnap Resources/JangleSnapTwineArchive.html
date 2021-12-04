@@ -132,9 +132,7 @@
 	))
 ]))
 
-(set: $cmGetDiceHand to (macro:
-	array-type _dice,
-[
+(set: $cmGetDiceHand to (macro: array-type _dice, [
 	(output-data:(cond:
 		(find: _die where _die&#39;s kind is &quot;d4&quot;, ..._dice)&#39;s length &gt; 0,
 			2nd of $arGameDiceHands,
@@ -142,9 +140,7 @@
 	))
 ]))
 
-(set: $cmDiceHandOpposite to (macro:
-	string-type _diceHand,
-[
+(set: $cmDiceHandOpposite to (macro: string-type _diceHand, [
 	(output-data:(cond:
 		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
 		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
@@ -190,74 +186,13 @@
 (for: each _die, ...$arDiceZoneOpponent)[
 ($cmDiePrint:_die)
 ]
-|==|</tw-passagedata><tw-passagedata pid="7" name="Pass Scavenging die" tags="" position="1000,700" size="100,100">{=
-(set: _arDiceHandScavenging to (a:
-	($cmDieCreate:&quot;Scavenging&quot;),
-	($cmDieCreate:&quot;Foraging&quot;)
-))
-
-(set: _arDiceHandForaging to (a:
-	($cmDieCreate:&quot;Foraging&quot;),
-	($cmDieCreate:&quot;Foraging&quot;)
-))
-
-(move: _arDiceHandForaging into $arDiceZonePlayer)
-(move: _arDiceHandScavenging into $arDiceZoneOpponent)
-
-
-(display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="8" name="Keep Scavenging die" tags="" position="1000,900" size="100,100">{=
-(set: _arDiceHandScavenging to (a:
-	($cmDieCreate:&quot;Scavenging&quot;),
-	($cmDieCreate:&quot;Foraging&quot;)
-))
-
-(set: _arDiceHandForaging to (a:
-	($cmDieCreate:&quot;Foraging&quot;),
-	($cmDieCreate:&quot;Foraging&quot;)
-))
-
-(move: _arDiceHandScavenging into $arDiceZonePlayer)
-(move: _arDiceHandForaging into $arDiceZoneOpponent)
-
-
-(display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="9" name="Roll Foraging" tags="" position="1000,1100" size="100,100">{=
-(set: _arDiceHandScavenging to (a:
-	($cmDieCreate:&quot;Scavenging&quot;),
-	($cmDieCreate:&quot;Foraging&quot;)
-))
-
-(set: _arDiceHandForaging to (a:
-	($cmDieCreate:&quot;Foraging&quot;),
-	($cmDieCreate:&quot;Foraging&quot;)
-))
-
-(if: (either: &quot;Scavenging&quot;, &quot;Foraging&quot;) is &quot;Scavenging&quot;)[
-	(move: _arDiceHandScavenging into $arDiceZonePlayer)
-	(move: _arDiceHandForaging into $arDiceZoneOpponent)
-]
-(else:)[
-	(move: _arDiceHandForaging into $arDiceZonePlayer)
-	(move: _arDiceHandScavenging into $arDiceZoneOpponent)
-]
-
-
-(display: &quot;Game State&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="10" name="Game Choices" tags="" position="800,700" size="100,100">{=
+|==|</tw-passagedata><tw-passagedata pid="7" name="Game Choices" tags="" position="800,700" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXX=&quot;)[=
 =|=
 (box:&quot;=XXX=&quot;)[###Standard Actions]
-(if: (find:_die where _die&#39;s kind is &quot;Scavenging&quot;, ...$arDiceZonePlayer)&#39;s length &gt; 0)[
-[[Pass Scavenging die on roll-&gt;Pass Scavenging die]] &lt;br&gt;
-[[Keep Scavenging die on roll-&gt;Keep Scavenging die]] &lt;br&gt;
-]
-(else:)[
-[[Roll both Foraging dice-&gt;Roll Foraging]] &lt;br&gt;
-]
 =|=
 (box:&quot;=XXX=&quot;)[###Ability Actions]
-|==|</tw-passagedata><tw-passagedata pid="11" name="Dice Setup" tags="startup" position="200,500" size="100,100">{=
+|==|</tw-passagedata><tw-passagedata pid="8" name="Dice Setup" tags="startup" position="200,500" size="100,100">{=
 (set: $arDieSidesD4 to
 (a:
 	&quot;Turret&quot;   ,
@@ -284,8 +219,7 @@
 	&quot;value&quot;  ,&quot;&quot;
 ))
 
-(set: $cmCreateDie to
-(macro: string-type _dieKind, [
+(set: $cmCreateDie to (macro: string-type _dieKind, [
 	(output-data:
 		(cond:
 			_dieKind is &quot;d4&quot;,
@@ -303,13 +237,11 @@
 	)
 ]))
 
-(set: $cmDieRoll to
-(macro: datamap-type _die, [
+(set: $cmDieRoll to (macro: datamap-type _die, [
 	(output-data:_die + (dm:&quot;value&quot;,(either: ..._die&#39;s sides)))
 ]))
 
-(set: $cmDiePrint to
-(macro: datamap-type _die, [
+(set: $cmDiePrint to (macro: datamap-type _die, [
 	(output:)+(text-colour:_die&#39;s colour)[
 		(cond:
 			_die&#39;s value is &quot;&quot;,&quot;&quot;,
@@ -318,17 +250,13 @@
 	]
 ]))
 
-(set: $cmDieResult to
-(macro: datamap-type _die, [
+(set: $cmDieResult to (macro: datamap-type _die, [
 	(output-data:_die&#39;s value)
 ]))
 
-(set: $cmDiceResult to
-(macro:	array-type _dice, [
-	(output-data:
-		(sorted:(altered:_die via ($cmDieResult:_die), ..._dice))
-	)
-]))</tw-passagedata><tw-passagedata pid="12" name="Foraging Wanderer Roll Results" tags="" position="1200,500" size="100,100">{=
+(set: $cmDiceResult to (macro: array-type _dice, [
+	(output-data:(altered:_die via ($cmDieResult:_die), ..._dice))
+]))</tw-passagedata><tw-passagedata pid="9" name="Foraging Wanderer Roll Results" tags="" position="1200,500" size="100,100">{=
 (set: $arFWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FW Loss&quot;,
@@ -373,7 +301,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="13" name="Scavenging Wanderer Rolls Results" tags="" position="1400,500" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="10" name="Scavenging Wanderer Rolls Results" tags="" position="1400,500" size="100,100">{=
 (set: $arSWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SW Loss&quot;,
@@ -435,7 +363,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="14" name="Foraging Merchant Roll Results" tags="" position="1200,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="11" name="Foraging Merchant Roll Results" tags="" position="1200,700" size="100,100">{=
 (set: $arFMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
@@ -514,7 +442,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="15" name="Scavenging Merchant Roll Results" tags="" position="1400,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="12" name="Scavenging Merchant Roll Results" tags="" position="1400,700" size="100,100">{=
 (set: $arSMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
@@ -573,7 +501,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="16" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="13" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">{=
 (set: $arFPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
@@ -629,7 +557,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="17" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="14" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">{=
 (set: $arSPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
@@ -691,7 +619,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="18" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="15" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">{=
 (set: $arFARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
@@ -736,7 +664,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="19" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="16" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">{=
 (set: $arSARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
@@ -787,7 +715,7 @@
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="20" name="Result Rule Examiner" tags="" position="1200,300" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="17" name="Result Rule Examiner" tags="" position="1200,300" size="100,100">{=
 (set: $dmRecursionHelper to
 $dmRecursionHelper + (dm:
 &quot;resultRuleCond&quot;,
@@ -818,7 +746,7 @@ $dmRecursionHelper + (dm:
 	array-type _playerDice
 [
 	(output-data:(folded:_ruleDiceResult making _comp via
-		(sorted:_ruleDiceResult) is ($cmDiceResult:_playerDice)
+		(sorted:_ruleDiceResult) is (sorted:($cmDiceResult:_playerDice))
 			or _comp,
 		false,
 		_ruleDiceResults
@@ -840,14 +768,14 @@ $dmRecursionHelper + (dm:
 		_ruleField&#39;s name is &quot;opponent&quot;,(_cmResultRuleCond:
 			_gameState,
 			_ruleField&#39;s value
-				+ (dm:&quot;diceHand&quot;,($cmDiceHandInvert:_ruleDiceHand))
+				+ (dm:&quot;diceHand&quot;,($cmDiceHandOpposite:_ruleDiceHand))
 		),
 		_ruleField&#39;s name is &quot;diceResults&quot;,
 			(_cmDiceResultsComp:_ruleField&#39;s value,_playerState&#39;s dice),
 		_ruleField&#39;s name is &quot;positions&quot;,
 			_playerState&#39;s position is in _ruleField&#39;s value
 	))
-])))</tw-passagedata><tw-passagedata pid="21" name="Recursion Setup" tags="startup" position="200,900" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="18" name="Recursion Setup" tags="startup" position="200,900" size="100,100">{=
 &lt;!--
 Harlowe doesn&#39;t support recursion by default, as variable names are not bound until after the declaration is checked for correctness. This means that macros cannot refer to themselves or other macros that have yet to be declared.
 
@@ -878,7 +806,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 --&gt;
 
-(set: $dmRecursionHelper to (dm:))</tw-passagedata><tw-passagedata pid="22" name="Result Rule Applier" tags="" position="1400,300" size="100,100">{=
+(set: $dmRecursionHelper to (dm:))</tw-passagedata><tw-passagedata pid="19" name="Result Rule Applier" tags="" position="1400,300" size="100,100">{=
 (set: _cmRuleEffectApp to
 (macro:
 	datamap-type _gameState,
@@ -917,7 +845,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		_gameState,
 		...(dataentries:_ruleEffects)
 	))
-]))</tw-passagedata><tw-passagedata pid="23" name="Choice Rules" tags="" position="1600,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="20" name="Choice Rules" tags="" position="1600,500" size="100,100">{=
 (set: $arRollChoiceRules to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;Foraging NoCheat&quot;,
@@ -982,7 +910,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	&quot;description&quot;,&quot;Keep scavenging, pass foraging die&quot;
 )
 
-))</tw-passagedata><tw-passagedata pid="24" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
 (set: $cmFairRollCalc to
 (macro: datamap-type _playerState, [
 	(set: _dexM to ($cmGetStatValueMod:
@@ -1029,7 +957,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 			&quot;Roll Choice Handler&quot;
 		)[(set: $dmPCRollChoice to _choiceRule)]
 	]
-]))</tw-passagedata><tw-passagedata pid="25" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="22" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
 (set: $cmRoll to (macro:
 	datamap-type _gameState,
 	datamap-type _choiceRule,
@@ -1042,27 +970,21 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	)
 ]))
 
-(set: $cmGetGameDice to (macro:
+(set: $cmMoveGameDice to (macro:
 	datamap-type _gameState,
 [
 	(unpack: _gameState into (dm:
-		1st of $arGameDiceHands,(dm:
-			&quot;creature&quot;,(dm:&quot;label&quot;,str-type _label1),
-			&quot;dice&quot;,array-type _dice1
-		),
-		2nd of $arGameDiceHands,(dm:
-			&quot;creature&quot;,(dm:&quot;label&quot;,str-type _label2),
-			&quot;dice&quot;,array-type _dice2
-		)
+		&quot;pc&quot; ,(dm:&quot;dice&quot;,array-type _dice1),
+		&quot;npc&quot;,(dm:&quot;dice&quot;,array-type _dice2)
 	))
 	(output-data:(a:
 		_gameState + (dm:
-			1st of $arGameDiceHands,(dm:&quot;dice&quot;,(a:)),
-			2nd of $arGameDiceHands,(dm:&quot;dice&quot;,(a:))
+			&quot;pc&quot; ,(dm:&quot;dice&quot;,(a:)),
+			&quot;npc&quot;,(dm:&quot;dice&quot;,(a:))
 		),
 		(dm:
-			_label1,_dice1,
-			_label2,_dice2
+			&quot;pc&quot; ,_dice1,
+			&quot;npc&quot;,_dice2
 		)
 	))
 ]))
@@ -1090,8 +1012,8 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	$dmGameState,
 	$dmPCRollChoice,
 	($cmNPCRollChooser:$dmGameState,$arRollChoiceRules)
-))</tw-passagedata><tw-passagedata pid="26" name="Creature Editor" tags="" position="400,500" size="100,100">{=
-($cmEditorUICreate:$strEditorTarget of $dmCreatures)</tw-passagedata><tw-passagedata pid="27" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="23" name="Creature Editor" tags="" position="400,500" size="100,100">{=
+($cmEditorUICreate:$strEditorTarget of $dmCreatures)</tw-passagedata><tw-passagedata pid="24" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
 (set: $cmEditorUICreate to (macro: datamap-type _creature, [
 (output:)[
 (box:&quot;=XXX=&quot;)[
