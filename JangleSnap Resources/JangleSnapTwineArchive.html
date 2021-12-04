@@ -98,36 +98,31 @@
 	&quot;Edit your opponent&quot;,
 	&quot;Creature Editor&quot;
 )[(set: $strEditorTarget to &quot;npc&quot;)]</tw-passagedata><tw-passagedata pid="3" name="Game Setup" tags="startup" position="200,700" size="100,100">{=
-(set: $arGamePositions to
-(a:
+(set: $arGamePositions to (a:
 	&quot;Wanderer&quot;,
 	&quot;Merchant&quot;,
 	&quot;Pilgrim&quot;,
 	&quot;Ascendant&quot;
 ))
 
-(set: $arGameDiceSets to
-(a:
+(set: $arGameDiceHands to (a:
 	&quot;foraging&quot;,
 	&quot;scavenging&quot;
 ))
 
-(set: $cmCreateGameState to
-(macro:
-	datamap-type _playerCreature,
-	datamap-type _npcCreature,
+(set: $cmCreateGameState to (macro:
+	str-type _pcLabel,
+	str-type _npcLabel,
 [
 	(output-data:(dm:
-		1st of $arGameDiceSets,(dm:
-			&quot;creature&quot;,_playerCreature,
+		_pcLabel,(dm:
 			&quot;dice&quot;,(a:
 				($cmCreateDie:&quot;d6&quot;),
 				($cmCreateDie:&quot;d6&quot;)
 			),
 			&quot;position&quot;,1st of $arGamePositions
 		),
-		2nd of $arGameDiceSets,(dm:
-			&quot;creature&quot;,_npcCreature,
+		_npcLabel,(dm:
 			&quot;dice&quot;,(a:
 				($cmCreateDie:&quot;d4&quot;),
 				($cmCreateDie:&quot;d6&quot;)
@@ -137,11 +132,22 @@
 	))
 ]))
 
-(set: $cmDiceSetInvert to
-(macro: string-type _diceSet, [
-	(output-data: (cond:
-		_diceSet is 1st of $arGameDiceSets,2nd of $arGameDiceSets
-		_diceSet is 2nd of $arGameDiceSets,1st of $arGameDiceSets
+(set: $cmGetDiceHand to (macro:
+	array-type _dice,
+[
+	(output-data:(cond:
+		(find: _die where _die&#39;s kind is &quot;d4&quot;, ..._dice)&#39;s length &gt; 0,
+			2nd of $arGameDiceHands,
+		1st of $arGameDiceHands
+	))
+]))
+
+(set: $cmDiceHandOpposite to (macro:
+	string-type _diceHand,
+[
+	(output-data:(cond:
+		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
+		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
 	))
 ]))</tw-passagedata><tw-passagedata pid="4" name="Game State" tags="" position="800,300" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(b4r:&quot;none&quot;,&quot;none&quot;,&quot;dotted&quot;)+(b4r-colour:white)+(box:&quot;=XXXXXX=&quot;)[
@@ -169,8 +175,8 @@
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=X=&quot;)[######&lt; Your Side
 ######You are in (print:$strGamePositionPlayer) Position]</tw-passagedata><tw-passagedata pid="5" name="New Game" tags="" position="600,300" size="100,100">{=
 (set: $dmGameState to ($cmGameStateCreate:
-	$dmCreatures&#39;s pc,
-	$dmCreatures&#39;s npc
+	&quot;pc&quot;,
+	&quot;npc&quot;
 ))
 
 (display: &quot;Game UI&quot;)
@@ -185,55 +191,55 @@
 ($cmDiePrint:_die)
 ]
 |==|</tw-passagedata><tw-passagedata pid="7" name="Pass Scavenging die" tags="" position="1000,700" size="100,100">{=
-(set: _arDiceSetScavenging to (a:
+(set: _arDiceHandScavenging to (a:
 	($cmDieCreate:&quot;Scavenging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
 ))
 
-(set: _arDiceSetForaging to (a:
+(set: _arDiceHandForaging to (a:
 	($cmDieCreate:&quot;Foraging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
 ))
 
-(move: _arDiceSetForaging into $arDiceZonePlayer)
-(move: _arDiceSetScavenging into $arDiceZoneOpponent)
+(move: _arDiceHandForaging into $arDiceZonePlayer)
+(move: _arDiceHandScavenging into $arDiceZoneOpponent)
 
 
 (display: &quot;Game State&quot;)
 (display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="8" name="Keep Scavenging die" tags="" position="1000,900" size="100,100">{=
-(set: _arDiceSetScavenging to (a:
+(set: _arDiceHandScavenging to (a:
 	($cmDieCreate:&quot;Scavenging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
 ))
 
-(set: _arDiceSetForaging to (a:
+(set: _arDiceHandForaging to (a:
 	($cmDieCreate:&quot;Foraging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
 ))
 
-(move: _arDiceSetScavenging into $arDiceZonePlayer)
-(move: _arDiceSetForaging into $arDiceZoneOpponent)
+(move: _arDiceHandScavenging into $arDiceZonePlayer)
+(move: _arDiceHandForaging into $arDiceZoneOpponent)
 
 
 (display: &quot;Game State&quot;)
 (display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="9" name="Roll Foraging" tags="" position="1000,1100" size="100,100">{=
-(set: _arDiceSetScavenging to (a:
+(set: _arDiceHandScavenging to (a:
 	($cmDieCreate:&quot;Scavenging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
 ))
 
-(set: _arDiceSetForaging to (a:
+(set: _arDiceHandForaging to (a:
 	($cmDieCreate:&quot;Foraging&quot;),
 	($cmDieCreate:&quot;Foraging&quot;)
 ))
 
 (if: (either: &quot;Scavenging&quot;, &quot;Foraging&quot;) is &quot;Scavenging&quot;)[
-	(move: _arDiceSetScavenging into $arDiceZonePlayer)
-	(move: _arDiceSetForaging into $arDiceZoneOpponent)
+	(move: _arDiceHandScavenging into $arDiceZonePlayer)
+	(move: _arDiceHandForaging into $arDiceZoneOpponent)
 ]
 (else:)[
-	(move: _arDiceSetForaging into $arDiceZonePlayer)
-	(move: _arDiceSetScavenging into $arDiceZoneOpponent)
+	(move: _arDiceHandForaging into $arDiceZonePlayer)
+	(move: _arDiceHandScavenging into $arDiceZoneOpponent)
 ]
 
 
@@ -326,7 +332,7 @@
 (set: $arFWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FW Loss&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
 	),
@@ -338,7 +344,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FW Become Merchant&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Water Dram&quot;,&quot;Water Dram&quot;)
 	),
@@ -350,7 +356,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FW No Change&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
@@ -371,7 +377,7 @@
 (set: $arSWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SW Loss&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
@@ -385,7 +391,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SW Become Pilgrim&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Shrine&quot;,&quot;Brinestalk&quot;)
 	),
@@ -397,7 +403,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SW Become Ascendant&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Spindle&quot;,&quot;Tonic&quot;)
 	),
@@ -409,7 +415,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SW No Change&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Brinestalk&quot;),
 		(a:&quot;Turret&quot; ,&quot;Tonic&quot;),
@@ -433,7 +439,7 @@
 (set: $arFMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Water Dram&quot; ,&quot;Water Dram&quot;),
@@ -448,7 +454,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Loss&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
 	),
@@ -460,7 +466,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Become Wanderer&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
@@ -475,7 +481,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Become Wanderer w/ Merchant Swap&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
 	),
@@ -494,7 +500,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Become Wanderer wo/ Merchant Swap&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
 	),
@@ -512,7 +518,7 @@
 (set: $arSMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Tonic&quot;)
@@ -525,7 +531,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SM Loss&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Turret&quot;,&quot;Brinestalk&quot;),
@@ -539,7 +545,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SM Become Wanderer&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Turret&quot;,&quot;Tonic&quot;),
@@ -557,7 +563,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SM Become Pilgrim&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Shrine&quot;,&quot;Brinestalk&quot;)
 	),
@@ -571,7 +577,7 @@
 (set: $arFPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
 		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;),
@@ -585,7 +591,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FP Loss&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
 	),
@@ -597,7 +603,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FP Become Wanderer&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Water Dram&quot;,&quot;Water Dram&quot;),
@@ -611,7 +617,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FP No Change&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
@@ -627,7 +633,7 @@
 (set: $arSPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Tonic&quot;),
 		(a:&quot;Shrine&quot;,&quot;Water Dram&quot;),
@@ -641,7 +647,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SP Loss&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Shrine&quot;,&quot;Young Ivory&quot;)
@@ -654,7 +660,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SP Become Wanderer&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Brinestalk&quot;),
 		(a:&quot;Turret&quot; ,&quot;Tonic&quot;),
@@ -670,7 +676,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SP No Change&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Young Ivory&quot;),
@@ -689,7 +695,7 @@
 (set: $arFARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
 		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;),
@@ -703,7 +709,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FA Loss&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Brinestalk&quot; ,&quot;Brinestalk&quot;),
@@ -717,7 +723,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FA No Change&quot;,
-	&quot;diceSet&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
@@ -734,7 +740,7 @@
 (set: $arSARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;   ,&quot;Tonic&quot;),
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Young Ivory&quot;),
@@ -751,7 +757,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SA Loss&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Young Ivory&quot;),
 		(a:&quot;Turret&quot; ,&quot;Water Dram&quot;),
@@ -767,7 +773,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SA No Change&quot;,
-	&quot;diceSet&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Brinestalk&quot;),
 		(a:&quot;Shrine&quot; ,&quot;Young Ivory&quot;),
@@ -790,16 +796,16 @@ $dmRecursionHelper + (dm:
 	datamap-type _resultRule,
 [
 	(set: _cmRuleFieldMatch to $dmRecursionHelper&#39;s ruleFieldMatch)
-	(set: _ruleDiceSet to _resultRule&#39;s diceSet)
+	(set: _ruleDiceHand to _resultRule&#39;s diceHand)
 
 	(output-data:(folded:
 		_ruleField making _cond via (cond:
-			_ruleField&#39;s name is &quot;diceSet&quot;,true,
+			_ruleField&#39;s name is &quot;diceHand&quot;,true,
 			_ruleField&#39;s name is &quot;effects&quot;,true,
 			(_cmRuleFieldMatch:
 				_gameState,
 				_ruleField,
-				_ruleDiceSet
+				_ruleDiceHand
 		)) and _cond,
 		true,
 		...(dataentries: _resultRule)
@@ -825,16 +831,16 @@ $dmRecursionHelper + (dm:
 (macro:
 	datamap-type _gameState,
 	datamap-type _ruleField,
-	string-type _ruleDiceSet
+	string-type _ruleDiceHand
 [
 	(set: _cmResultRuleCond to $dmRecursionHelper&#39;s resultRuleCond)
-	(set: _playerState to _ruleDiceSet of _gameState)
+	(set: _playerState to _ruleDiceHand of _gameState)
 
 	(output-data:(cond:
 		_ruleField&#39;s name is &quot;opponent&quot;,(_cmResultRuleCond:
 			_gameState,
 			_ruleField&#39;s value
-				+ (dm:&quot;diceSet&quot;,($cmDiceSetInvert:_ruleDiceSet))
+				+ (dm:&quot;diceHand&quot;,($cmDiceHandInvert:_ruleDiceHand))
 		),
 		_ruleField&#39;s name is &quot;diceResults&quot;,
 			(_cmDiceResultsComp:_ruleField&#39;s value,_playerState&#39;s dice),
@@ -877,12 +883,12 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 (macro:
 	datamap-type _gameState,
 	datamap-type _ruleEffect,
-	string-type _ruleDiceSet,
+	string-type _ruleDiceHand,
 [
-	(set: _playerState to _ruleDiceSet of _gameState)
+	(set: _playerState to _ruleDiceHand of _gameState)
 	(output-data:
 		_gameState
-		+ (dm:_ruleDiceSet,_playerState + _ruleEffect)
+		+ (dm:_ruleDiceHand,_playerState + _ruleEffect)
 	)
 ]))
 
@@ -899,13 +905,13 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 				+ (_cmRuleEffectApp:
 					_effectField&#39;s value,
 					_gameState,
-					($cmDiceSetInvert:_resultRule&#39;s diceSet)
+					($cmDiceHandInvert:_resultRule&#39;s diceHand)
 				),
 			_gameState
 			+ (_cmRuleEffectApp:
 				(dm:_effectField&#39;s name,_effectField&#39;s value),
 				_gameState,
-				_resultRule&#39;s diceSet
+				_resultRule&#39;s diceHand
 			)
 		),
 		_gameState,
@@ -978,10 +984,10 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 ))</tw-passagedata><tw-passagedata pid="24" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
 (set: $cmFairRollCalc to
-(macro: datamap-type _creatureState, [
+(macro: datamap-type _playerState, [
 	(set: _dexM to ($cmGetStatValueMod:
 		1st of (find:_stat where _stat&#39;s label is &quot;DEX&quot;,
-			_creatureState&#39;s stats
+			_playerState&#39;s stats
 		)
 	))
 	(output-data: (cond:
@@ -1024,30 +1030,58 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		)[(set: $dmPCRollChoice to _choiceRule)]
 	]
 ]))</tw-passagedata><tw-passagedata pid="25" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
-(set: $cmRoll to
-(macro:
+(set: $cmRoll to (macro:
 	datamap-type _gameState,
 	datamap-type _choiceRule,
+	array-type _dice,
 	str-type _creatureLabel,
 [
-	(set: _dice to (_gameState&#39;s (_gameState&#39;s _creatureLabel))&#39;s dice)
+	(set: _playerState to 
 	(output-data:
 		
 	)
 ]))
 
-(set: $cmRollChoiceHandler to
-(macro:
+(set: $cmGetGameDice to (macro:
+	datamap-type _gameState,
+[
+	(unpack: _gameState into (dm:
+		1st of $arGameDiceHands,(dm:
+			&quot;creature&quot;,(dm:&quot;label&quot;,str-type _label1),
+			&quot;dice&quot;,array-type _dice1
+		),
+		2nd of $arGameDiceHands,(dm:
+			&quot;creature&quot;,(dm:&quot;label&quot;,str-type _label2),
+			&quot;dice&quot;,array-type _dice2
+		)
+	))
+	(output-data:(a:
+		_gameState + (dm:
+			1st of $arGameDiceHands,(dm:&quot;dice&quot;,(a:)),
+			2nd of $arGameDiceHands,(dm:&quot;dice&quot;,(a:))
+		),
+		(dm:
+			_label1,_dice1,
+			_label2,_dice2
+		)
+	))
+]))
+
+(set: $cmRollChoiceHandler to (macro:
 	datamap-type _gameState,
 	datamap-type _pcRollChoice,
 	datamap-type _npcRollChoice,
 [
+	(unpack: ($cmGetGameDice:_gameState) into (a:
+		datamap-type _gameState,
+		datamap-type _gameDice
+	))
 	(output-data:(folded:
 		_args making _state via ($cmRoll:_state, ..._args),
 		_gameState,
 		...(a:
-			(a:_pcRollChoice ,&quot;pc&quot; ),
-			(a:_npcRollChoice,&quot;npc&quot;)
+			(a:_pcRollChoice ,_gameDice&#39;s pc ,&quot;pc&quot; ),
+			(a:_npcRollChoice,_gameDice&#39;s npc,&quot;npc&quot;)
 		)
 	))
 ]))
