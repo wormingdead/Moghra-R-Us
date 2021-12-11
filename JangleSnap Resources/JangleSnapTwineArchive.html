@@ -106,8 +106,8 @@
 ))
 
 (set: $arGameDiceHands to (a:
-	&quot;foraging&quot;,
-	&quot;scavenging&quot;
+	&quot;Foraging&quot;,
+	&quot;Scavenging&quot;
 ))
 
 (set: $cmCreateGameState to (macro:
@@ -175,8 +175,21 @@
 	&quot;npc&quot;
 ))
 
-(display: &quot;Game UI&quot;)
-(display: &quot;Game Choices&quot;)</tw-passagedata><tw-passagedata pid="6" name="Game Board" tags="" position="800,500" size="100,100">{=
+&lt;!--
+Core Game Loop:
+
+1. Display game board
+	- Display Player Roll Choices
+2. Perform both dice rolls
+	- Calculate NPC roll
+3. Apply Dice Roll Result Rules
+	- Examine results, then apply result effects
+4. Check for game completion
+	- Check for ties
+	- If either player has won, lost, or tied, go to ending screen
+5. Loop back to #1
+
+--&gt;</tw-passagedata><tw-passagedata pid="6" name="Game Board" tags="" position="800,500" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXXX=&quot;)[=
 =|=
 (for: each _die, ...$arDiceZonePlayer)[
@@ -260,7 +273,7 @@
 (set: $arFWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FW Loss&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
 	),
@@ -272,7 +285,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FW Become Merchant&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Water Dram&quot;,&quot;Water Dram&quot;)
 	),
@@ -284,7 +297,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FW No Change&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
@@ -305,7 +318,7 @@
 (set: $arSWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SW Loss&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
@@ -319,7 +332,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SW Become Pilgrim&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Shrine&quot;,&quot;Brinestalk&quot;)
 	),
@@ -331,7 +344,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SW Become Ascendant&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Spindle&quot;,&quot;Tonic&quot;)
 	),
@@ -343,7 +356,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SW No Change&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Brinestalk&quot;),
 		(a:&quot;Turret&quot; ,&quot;Tonic&quot;),
@@ -367,7 +380,7 @@
 (set: $arFMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Water Dram&quot; ,&quot;Water Dram&quot;),
@@ -382,7 +395,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Loss&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
 	),
@@ -394,7 +407,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Become Wanderer&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
@@ -409,7 +422,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Become Wanderer w/ Merchant Swap&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
 	),
@@ -428,7 +441,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FM Become Wanderer wo/ Merchant Swap&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;)
 	),
@@ -446,7 +459,7 @@
 (set: $arSMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Tonic&quot;)
@@ -459,7 +472,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SM Loss&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Turret&quot;,&quot;Brinestalk&quot;),
@@ -473,7 +486,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SM Become Wanderer&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Turret&quot;,&quot;Tonic&quot;),
@@ -491,7 +504,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SM Become Pilgrim&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Shrine&quot;,&quot;Brinestalk&quot;)
 	),
@@ -505,7 +518,7 @@
 (set: $arFPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
 		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;),
@@ -519,7 +532,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FP Loss&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;)
 	),
@@ -531,7 +544,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FP Become Wanderer&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Brinestalk&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Water Dram&quot;,&quot;Water Dram&quot;),
@@ -545,7 +558,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FP No Change&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
@@ -561,7 +574,7 @@
 (set: $arSPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Tonic&quot;),
 		(a:&quot;Shrine&quot;,&quot;Water Dram&quot;),
@@ -575,7 +588,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SP Loss&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Shrine&quot;,&quot;Young Ivory&quot;)
@@ -588,7 +601,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SP Become Wanderer&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Brinestalk&quot;),
 		(a:&quot;Turret&quot; ,&quot;Tonic&quot;),
@@ -604,7 +617,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SP No Change&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;,&quot;Water Dram&quot;),
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Young Ivory&quot;),
@@ -623,7 +636,7 @@
 (set: $arFARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Tonic&quot;),
 		(a:&quot;Brinestalk&quot; ,&quot;Tonic&quot;),
@@ -637,7 +650,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FA Loss&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Young Ivory&quot;),
 		(a:&quot;Brinestalk&quot; ,&quot;Brinestalk&quot;),
@@ -651,7 +664,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;FA No Change&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Young Ivory&quot;,&quot;Brinestalk&quot;),
 		(a:&quot;Young Ivory&quot;,&quot;Water Dram&quot;),
@@ -668,7 +681,7 @@
 (set: $arSARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot;   ,&quot;Tonic&quot;),
 		(a:&quot;Moghra&#39;Yi&quot;,&quot;Young Ivory&quot;),
@@ -685,7 +698,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SA Loss&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Young Ivory&quot;),
 		(a:&quot;Turret&quot; ,&quot;Water Dram&quot;),
@@ -701,7 +714,7 @@
 
 (dm:
 	&quot;ruleName&quot;,&quot;SA No Change&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
 	&quot;diceResults&quot;,(a:
 		(a:&quot;Turret&quot; ,&quot;Brinestalk&quot;),
 		(a:&quot;Shrine&quot; ,&quot;Young Ivory&quot;),
@@ -849,7 +862,9 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 (set: $arRollChoiceRules to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;Foraging NoCheat&quot;,
-	&quot;diceHand&quot;,&quot;foraging&quot;,
+	&quot;ruleKind&quot;,&quot;Standard&quot;,
+	&quot;diceHand&quot;,&quot;Foraging&quot;,
+	&quot;positions&quot;,(a:&quot;Wanderer&quot;,&quot;Merchant&quot;,&quot;Pilgrim&quot;,&quot;Ascendant&quot;),
 	&quot;mutations&quot;,(a:),
 	&quot;cybernetics&quot;,(a:),
 	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
@@ -857,20 +872,22 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		(dm:
 			&quot;area&quot;,&quot;player&quot;,
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;foraging&quot;
+			&quot;diceType&quot;,&quot;Foraging&quot;
 		),
 		(dm:
 			&quot;area&quot;,&quot;opponent&quot;,
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;foraging&quot;
+			&quot;diceType&quot;,&quot;Foraging&quot;
 		)
 	),
-	&quot;description&quot;,&quot;Roll foraging die in each area&quot;
+	&quot;description&quot;,&quot;Roll Foraging die in each area&quot;
 ),
 
 (dm:
 	&quot;ruleName&quot;,&quot;Pass Scavenging NoCheat&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;ruleKind&quot;,&quot;Standard&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
+	&quot;positions&quot;,(a:&quot;Wanderer&quot;,&quot;Merchant&quot;,&quot;Pilgrim&quot;,&quot;Ascendant&quot;),
 	&quot;mutations&quot;,(a:),
 	&quot;cybernetics&quot;,(a:),
 	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
@@ -878,20 +895,22 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		(dm:
 			&quot;area&quot;,&quot;player&quot;,
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;foraging&quot;
+			&quot;diceType&quot;,&quot;Foraging&quot;
 		),
 		(dm:
 			&quot;area&quot;,&quot;opponent&quot;,
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;scavenging&quot;
+			&quot;diceType&quot;,&quot;Scavenging&quot;
 		)
 	),
-	&quot;description&quot;,&quot;Pass scavenging die, roll foraging&quot;
+	&quot;description&quot;,&quot;Pass Scavenging die, roll Foraging&quot;
 ),
 
 (dm:
 	&quot;ruleName&quot;,&quot;Keep Scavenging NoCheat&quot;,
-	&quot;diceHand&quot;,&quot;scavenging&quot;,
+	&quot;ruleKind&quot;,&quot;Standard&quot;,
+	&quot;diceHand&quot;,&quot;Scavenging&quot;,
+	&quot;positions&quot;,(a:&quot;Wanderer&quot;,&quot;Merchant&quot;,&quot;Pilgrim&quot;,&quot;Ascendant&quot;),
 	&quot;mutations&quot;,(a:),
 	&quot;cybernetics&quot;,(a:),
 	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
@@ -899,15 +918,15 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		(dm:
 			&quot;area&quot;,&quot;player&quot;,
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;scavenging&quot;
+			&quot;diceType&quot;,&quot;Scavenging&quot;
 		),
 		(dm:
 			&quot;area&quot;,&quot;opponent&quot;,
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;foraging&quot;
+			&quot;diceType&quot;,&quot;Foraging&quot;
 		),
 	),
-	&quot;description&quot;,&quot;Keep scavenging, pass foraging die&quot;
+	&quot;description&quot;,&quot;Keep Scavenging, pass Foraging die&quot;
 )
 
 ))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
@@ -964,7 +983,6 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	array-type _dice,
 	str-type _creatureLabel,
 [
-	(set: _playerState to 
 	(output-data:
 		
 	)
@@ -1016,48 +1034,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 ($cmEditorUICreate:$strEditorTarget of $dmCreatures)</tw-passagedata><tw-passagedata pid="24" name="Creature Editor Setup" tags="startup" position="500,600" size="100,100">{=
 (set: $cmEditorUICreate to (macro: datamap-type _creature, [
 (output:)[
-(box:&quot;=XXX=&quot;)[
-(box:&quot;=X=&quot;)[###Information]
-=|=
-(box:&quot;=XX=&quot;)[&#39;&#39;//Name//&#39;&#39;]
-=|=
-(box:&quot;=XXXX=&quot;)[(input-box:2bind _creature&#39;s name,&quot;X&quot;,1)]
-|==|
-]
-
-(box:&quot;=XXX=&quot;)[
-(box:&quot;=X=&quot;)[###Attributes]
-=|=
-(box:&quot;=XX=&quot;)[
-	(for: each _stat, ..._creature&#39;s stats)[
-		&#39;&#39;//(print:_stat&#39;s name)//&#39;&#39; &lt;br&gt;
-	]
-]
-=|=
-(box:&quot;=XX=&quot;)[
-	(for: each _i, ...(range:1,_creature&#39;s stats&#39;s length))[
-		(dropdown:
-			2bind _creature&#39;s stats&#39;s (_i)&#39;s value,
-			...$arStatValueRange
-		) &lt;br&gt;
-	]
-]
-|==|
-]
-
-=|=
-(box:&quot;=XXXXX=&quot;)[
-(box:&quot;=XX=&quot;)[###Mutations]
-* //Todo//
-]
-=|=
-(box:&quot;=XXXXX=&quot;)[
-(box:&quot;=XX=&quot;)[###Cybernetics]
-* //Todo//
-]
-|==|
-
-(box:&quot;=XXX=&quot;)[
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XX=&quot;)[
 =|=
 (link-reveal-goto:
 	&quot;Save &amp; Return&quot;,
@@ -1070,5 +1047,61 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 )
 |==|
 ]
+
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[
+###Information
+=|=
+&#39;&#39;//Name//&#39;&#39;
+=|=
+(input-box:2bind _creature&#39;s name,&quot;X&quot;,1)
+|==|
+]
+
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[
+###Attributes
+=|=
+(for: each _stat, ..._creature&#39;s stats)[
+	&#39;&#39;//(print:_stat&#39;s name)//&#39;&#39; &lt;br&gt;
+]
+=|=
+(for: each _i, ...(range:1,_creature&#39;s stats&#39;s length))[
+	(dropdown:
+		2bind _creature&#39;s stats&#39;s (_i)&#39;s value,
+		...$arStatValueRange
+	) &lt;br&gt;
+]
+|==|
+]
+
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXX=&quot;)[
+=|=
+###Mutations
+(align:&quot;&lt;==&quot;)+(box:&quot;=XXX=&quot;)[
+* //Todo//
+]
+=|=
+###Cybernetics
+(align:&quot;&lt;==&quot;)+(box:&quot;=XXX=&quot;)[
+* //Todo//
+]
+|==|
+]
+
+(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XX=&quot;)[
+=|=
+(link-reveal-goto:
+	&quot;Save &amp; Return&quot;,
+	&quot;Main Menu&quot;
+)[(set: $dmCreatures to $dmCreatures + (dm:_creature&#39;s label,_creature))]
+=|=
+(link-goto:
+	&quot;Cancel&quot;,
+	&quot;Main Menu&quot;
+)
+|==|
+]
+]]))</tw-passagedata><tw-passagedata pid="25" name="Game UI Setup" tags="" position="700,400" size="100,100">(set: $cmGameUICreate to (macro: datamap-type _gameState, [
+(output:)[
+
 ]]))</tw-passagedata></tw-storydata>
 
