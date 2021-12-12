@@ -97,7 +97,7 @@
 (link-reveal-goto:
 	&quot;Edit your opponent&quot;,
 	&quot;Creature Editor&quot;
-)[(set: $strEditorTarget to &quot;npc&quot;)]</tw-passagedata><tw-passagedata pid="3" name="Game Setup" tags="startup" position="200,700" size="100,100">{=
+)[(set: $strEditorTarget to &quot;npc&quot;)]</tw-passagedata><tw-passagedata pid="3" name="Game Setup" tags="startup" position="700,400" size="100,100">{=
 (set: $arGamePositions to (a:
 	&quot;Wanderer&quot;,
 	&quot;Merchant&quot;,
@@ -145,7 +145,7 @@
 		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
 		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
 	))
-]))</tw-passagedata><tw-passagedata pid="4" name="Game State" tags="" position="800,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="4" name="Game State" tags="" position="800,800" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(b4r:&quot;none&quot;,&quot;none&quot;,&quot;dotted&quot;)+(b4r-colour:white)+(box:&quot;=XXXXXX=&quot;)[
 =|=
 #####$strPlayerName
@@ -170,26 +170,9 @@
 
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=X=&quot;)[######&lt; Your Side
 ######You are in (print:$strGamePositionPlayer) Position]</tw-passagedata><tw-passagedata pid="5" name="New Game" tags="" position="600,300" size="100,100">{=
-(set: $dmGameState to ($cmGameStateCreate:
-	&quot;pc&quot;,
-	&quot;npc&quot;
-))
-
-&lt;!--
-Core Game Loop:
-
-1. Display game board
-	- Display Player Roll Choices
-2. Perform both dice rolls
-	- Calculate NPC roll
-3. Apply Dice Roll Result Rules
-	- Examine results, then apply result effects
-4. Check for game completion
-	- Check for ties
-	- If either player has won, lost, or tied, go to ending screen
-5. Loop back to #1
-
---&gt;</tw-passagedata><tw-passagedata pid="6" name="Game Board" tags="" position="800,500" size="100,100">{=
+($cmGameUICreate:
+	($cmGameStateCreate:&quot;pc&quot;,&quot;npc&quot;)
+)</tw-passagedata><tw-passagedata pid="6" name="Game Board" tags="" position="700,900" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXXX=&quot;)[=
 =|=
 (for: each _die, ...$arDiceZonePlayer)[
@@ -199,7 +182,7 @@ Core Game Loop:
 (for: each _die, ...$arDiceZoneOpponent)[
 ($cmDiePrint:_die)
 ]
-|==|</tw-passagedata><tw-passagedata pid="7" name="Game Choices" tags="" position="800,700" size="100,100">{=
+|==|</tw-passagedata><tw-passagedata pid="7" name="Game Choices" tags="" position="800,1000" size="100,100">{=
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXXXX=&quot;)[=
 =|=
 (box:&quot;=XXX=&quot;)[###Standard Actions]
@@ -932,15 +915,15 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 ))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
 (set: $cmFairRollCalc to
 (macro: datamap-type _playerState, [
-	(set: _dexM to ($cmGetStatValueMod:
-		1st of (find:_stat where _stat&#39;s label is &quot;DEX&quot;,
+	(set: _agiM to ($cmGetStatValueMod:
+		1st of (find:_stat where _stat&#39;s label is &quot;AGI&quot;,
 			_playerState&#39;s stats
 		)
 	))
 	(output-data: (cond:
-		_dexM &gt;= 1, 1.0,
-		(6 + _dexM) * (6 + _dexM) / (6 * 6 + 1)
-		+ 0.6 * (1.0 - (6 + _dexM) * (6 + _dexM) / (6 * 6 + 1))
+		_agiM &gt;= 1, 1.0,
+		(6 + _agiM) * (6 + _agiM) / (6 * 6 + 1)
+		+ 0.6 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
 	))
 ]))
 
@@ -1100,8 +1083,26 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 )
 |==|
 ]
-]]))</tw-passagedata><tw-passagedata pid="25" name="Game UI Setup" tags="" position="700,400" size="100,100">(set: $cmGameUICreate to (macro: datamap-type _gameState, [
+]]))</tw-passagedata><tw-passagedata pid="25" name="Game UI Setup" tags="" position="700,500" size="100,100">{=
+(set: $cmGameUICreate to (macro: datamap-type _gameState, [
 (output:)[
 
-]]))</tw-passagedata></tw-storydata>
+]]))</tw-passagedata><tw-passagedata pid="26" name="Game Loop" tags="" position="800,200" size="100,100">{=
+&lt;!--
+Core Game Loop:
+
+1. Display game board
+	- Display Player Roll Choices
+2. Perform both dice rolls
+	- Calculate NPC roll
+3. Apply Dice Roll Result Rules
+	- Examine results, then apply result effects
+4. Check for game completion
+	- Check for ties
+5a. If either player has won, lost, or tied, go to ending screen
+	- Use (replace: ?Passage) to get rid of old UI
+5b. Loop back to #1
+	- Use (replace: ?Passage) to get rid of old UI
+--&gt;
+</tw-passagedata></tw-storydata>
 
