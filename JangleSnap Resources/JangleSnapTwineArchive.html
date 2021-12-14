@@ -813,7 +813,7 @@ $dmRecursionHelper + (dm:
 	))
 ])))</tw-passagedata><tw-passagedata pid="17" name="01 Recursion Setup" tags="startup" position="100,100" size="100,100">{=
 &lt;!--
-Harlowe doesn&#39;t support recursion by default, as variable names are not bound until after the declaration is checked for correctness. This means that macros cannot refer to themselves or other macros that have yet to be declared.
+Harlowe doesn&#39;t support recursion by default, as variable names are not bound until after the declaration block is checked for correctness. This means that macros cannot refer to themselves and that macro declared earlier cannot refer to macros declared later, due to strict ordering of declarations (and startup pages).
 
 However, macros can be stored in data structures and then referred to indirectly. This indirection means that macros can call themselves in their declaration.
 
