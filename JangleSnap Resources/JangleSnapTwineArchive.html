@@ -1,6 +1,11 @@
 <tw-storydata name="JangleSnap Demo" startnode="25" creator="Twine" creator-version="2.3.15" ifid="57587E33-5DB3-40C2-9EC6-46771C27ADCE" zoom="1" format="Harlowe" format-version="3.2.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-story select {
   background-color: black;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="02 Character Setup" tags="startup" position="100,300" size="100,100">{=
+}
+
+tw-story {
+  padding: 0% 20%;
+  line-height: 1em;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="03 Creature Setup" tags="startup" position="100,500" size="100,100">{=
 (set: $dmCreatureNameDefaults to (dm:
 	&quot;pc&quot; ,&quot;Traveler&quot;,
 	&quot;npc&quot;,&quot;Unnamed Snapjaw&quot;
@@ -8,32 +13,32 @@
 
 (set: $arStatsDefault to (a:
 	(dm:
-		&quot;name&quot;,&quot;Strength&quot;,
+		&quot;name&quot; ,&quot;Strength&quot;,
 		&quot;label&quot;,&quot;STR&quot;,
 		&quot;value&quot;,&quot;16&quot;
 	),
 	(dm:
-		&quot;name&quot;,&quot;Agility&quot;,
+		&quot;name&quot; ,&quot;Agility&quot;,
 		&quot;label&quot;,&quot;AGI&quot;,
 		&quot;value&quot;,&quot;16&quot;
 	),
 	(dm:
-		&quot;name&quot;,&quot;Toughness&quot;,
+		&quot;name&quot; ,&quot;Toughness&quot;,
 		&quot;label&quot;,&quot;TOU&quot;,
 		&quot;value&quot;,&quot;16&quot;
 	),
 	(dm:
-		&quot;name&quot;,&quot;Intelligence&quot;,
+		&quot;name&quot; ,&quot;Intelligence&quot;,
 		&quot;label&quot;,&quot;INT&quot;,
 		&quot;value&quot;,&quot;16&quot;
 	),
 	(dm:
-		&quot;name&quot;,&quot;Wisdom&quot;,
+		&quot;name&quot; ,&quot;Wisdom&quot;,
 		&quot;label&quot;,&quot;WIS&quot;,
 		&quot;value&quot;,&quot;16&quot;
 	),
 	(dm:
-		&quot;name&quot;,&quot;Ego&quot;,
+		&quot;name&quot; ,&quot;Ego&quot;,
 		&quot;label&quot;,&quot;EGO&quot;,
 		&quot;value&quot;,&quot;16&quot;
 	)
@@ -64,7 +69,7 @@
 		_v &gt;= 16,(floor:(_v - 16) / 2),
 		(ceil:(_v - 16) / 2)
 	))
-]))</tw-passagedata><tw-passagedata pid="2" name="04 Main Menu UI" tags="startup" position="300,700" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="2" name="05 Main Menu UI" tags="startup" position="300,900" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;MainMenuUI&quot;,
 (macro: datamap-type _gameState, [
@@ -83,15 +88,21 @@
 		] &lt;br&gt;
 		&lt;br&gt;
 		(link:&quot;Edit Your Character&quot;)[
-			(replace:?Passage)[(_cmCreatureEditorUI:_gameState,&quot;pc&quot;)]
+			(replace:?Passage)[(_cmCreatureEditorUI:
+				_gameState,
+				_gameState&#39;s pc&#39;s creature
+			)]
 		] &lt;br&gt;
 		&lt;br&gt;
 		(link:&quot;Edit Your Opponent&quot;)[
-			(replace:?Passage)[(_cmCreatureEditorUI:_gameState,&quot;npc&quot;)]
+			(replace:?Passage)[(_cmCreatureEditorUI:
+				_gameState,
+				_gameState&#39;s npc&#39;s creature
+			)]
 		]
 	]
 ]
-])))</tw-passagedata><tw-passagedata pid="3" name="02 Game Setup" tags="startup" position="300,300" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="3" name="03 Game Setup" tags="startup" position="300,500" size="100,100">{=
 (set: $arGamePositions to (a:
 	&quot;Wanderer&quot;,
 	&quot;Merchant&quot;,
@@ -155,7 +166,7 @@
 		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
 		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
 	))
-]))</tw-passagedata><tw-passagedata pid="4" name="03 Player Topbar UI" tags="startup" position="200,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="4" name="04 Player Topbar UI" tags="startup" position="200,700" size="100,100">{=
 (set: $cmPlayerTopbarUI to (macro: datamap-type _gameState, [
 	(set: _pc to _gameState&#39;s pc&#39;s creature)
 	(set: _stats to _pc&#39;s stats)
@@ -188,7 +199,7 @@
 		|==|
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="5" name="03 Game Board UI" tags="startup" position="100,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="5" name="04 Game Board UI" tags="startup" position="100,700" size="100,100">{=
 (set: $cmGameBoardUI to (macro: datamap-type _gameState, [
 (output:)[
 	(align:&quot;=&gt;&lt;=&quot;)+
@@ -216,19 +227,32 @@
 		You are in &#39;&#39;(print:_gameState&#39;s pc&#39;s position)&#39;&#39; Position
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="6" name="03 Player Choice UI" tags="startup" position="300,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="6" name="04 Player Choice UI" tags="startup" position="300,700" size="100,100">{=
 (set: $cmPlayerChoiceUI to (macro: datamap-type _gameState, [
 (output:)[
-	(align:&quot;=&gt;&lt;=&quot;)+
+	(align:&quot;&lt;==&quot;)+
 	(box:&quot;=XXXXXXX=&quot;)[
 		=|=
-		(box:&quot;=XXX=&quot;)[###Standard Actions]
+		(align:&quot;=&gt;&lt;=&quot;)+
+		(box:&quot;=XXXXX=&quot;)[
+			###Standard Actions
+		]
+		(for: each _choice, ...($cmChoiceFilter:
+			_gameState,
+			_gameState&#39;s pc&#39;s creature,
+			$arRollChoiceRules,
+		))[
+			($cmChoiceLinkCreate:_gameState,_choice)
+		]
 		=|=
-		(box:&quot;=XXX=&quot;)[###Ability Actions]
+		(align:&quot;=&gt;&lt;=&quot;)+
+		(box:&quot;=XXXXX=&quot;)[
+			###Ability Actions
+		]
 		|==|
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="7" name="02 Dice Setup" tags="startup" position="200,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="7" name="03 Dice Setup" tags="startup" position="200,500" size="100,100">{=
 (set: $arDieSidesD4 to
 (a:
 	&quot;Turret&quot;   ,
@@ -881,7 +905,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		_gameState,
 		...(dataentries:_ruleEffects)
 	))
-]))</tw-passagedata><tw-passagedata pid="19" name="Choice Rules" tags="" position="1600,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="19" name="02 Choice Rules" tags="startup" position="100,300" size="100,100">{=
 (set: $arRollChoiceRules to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;Foraging NoCheat&quot;,
@@ -952,29 +976,30 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	&quot;description&quot;,&quot;Keep Scavenging, pass Foraging die&quot;
 )
 
-))</tw-passagedata><tw-passagedata pid="20" name="Roll Choice Link Creator" tags="" position="1600,300" size="100,100">{=
-(set: $cmFairRollCalc to (macro: datamap-type _playerState, [
+))</tw-passagedata><tw-passagedata pid="20" name="03 Roll Choice Setup" tags="startup" position="400,500" size="100,100">{=
+(set: $cmFairRollCalc to (macro: datamap-type _creature, [
 	(set: _agiM to ($cmGetStatValueMod:
 		1st of (find:
 			_stat where _stat&#39;s label is &quot;AGI&quot;,
-			_playerState&#39;s stats
+			..._creature&#39;s stats
 		)
 	))
 	(output-data: (cond:
 		_agiM &gt;= 1, 1.0,
 		(6 + _agiM) * (6 + _agiM) / (6 * 6 + 1)
-		+ 0.6 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
+		+ 0.67 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
 	))
 ]))
 
 (set: $cmRollOddsCalc to (macro:
 	datamap-type _choiceRule,
-	datamap-type _playerState,
+	datamap-type _creature,
 [
 	(output-data: (folded:
-		_rollEffect making _odds via (cond:
-			_rollEffect&#39;s rollType is &quot;fairRoll&quot;,
-				($cmFairRollCalc:_playerState) * _odds
+		_effect making _odds via (cond:
+			_effect&#39;s rollType is &quot;fairRoll&quot;,
+				($cmFairRollCalc:_creature) * _odds,
+			0
 		),
 		1.0,
 		..._choiceRule&#39;s effects
@@ -982,21 +1007,38 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 ]))
 
 (set: $cmChoiceLinkCreate to (macro:
+	datamap-type _gameState,
 	datamap-type _choiceRule,
-	datamap-type _pcState,
 [
-	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pcState)) * 100)
+	(set: _pc to _gameState&#39;s pc&#39;s creature)
+	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pc) * 100))
 	(set: _oddsStr to (cond:
-		_odds &lt; 100, &quot; [&quot; + (str:_odds) + &quot;%]&quot;,
+		_odds &lt; 100, &quot; &#96;[&#96;&quot; + (str:_odds) + &quot;%&#96;]&#96;&quot;,
 		&quot;&quot;
 	))
 
-	(output:)[
-		(link-reveal-goto:
-			_choiceRule&#39;s description + _oddsStr,
-			&quot;Roll Choice Handler&quot;
-		)[(set: $dmPCRollChoice to _choiceRule)]
+(output:)[
+	(link:_choiceRule&#39;s description + _oddsStr)[
+		(replace:?Passage)[
+			($cmRollChoiceApply:_gameState,_pc,_choiceRule)
+		]
 	]
+]
+]))
+
+(set: $cmChoiceFilter to (macro:
+	datamap-type _gameState,
+	datamap-type _creature,
+	array-type _arRollChoiceRules,
+[
+	(set: _dice to (_gameState&#39;s (_creature&#39;s label))&#39;s dice)
+	(output-data:
+		(find: _choice where
+			_choice&#39;s diceHand is ($cmGetDiceHand:_dice)
+				and ($cmRollOddsCalc:_choice,_creature) &gt; 0,
+			..._arRollChoiceRules
+		)
+	)
 ]))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
 (set: $cmRoll to (macro:
 	datamap-type _gameState,
@@ -1051,15 +1093,14 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	$dmGameState,
 	$dmPCRollChoice,
 	($cmNPCRollChooser:$dmGameState,$arRollChoiceRules)
-))</tw-passagedata><tw-passagedata pid="22" name="04 Creature Editor UI" tags="startup" position="100,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="22" name="05 Creature Editor UI" tags="startup" position="100,900" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;CreatureEditorUI&quot;,
 (macro:
 	datamap-type _gameState,
-	str-type _creatureLabel,
+	datamap-type _creature,
 [
 	(set: _cmMainMenuUI to $r7n&#39;s MainMenuUI)
-	(set: _creature to _gameState&#39;s (_creatureLabel)&#39;s creature)
 (output:)[
 	(align:&quot;=&gt;&lt;=&quot;)+
 	(box:&quot;=X=&quot;)[
@@ -1067,7 +1108,10 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		(link:&quot;Save &amp; Return&quot;)[(replace:?Passage)[
 			(_cmMainMenuUI:
 				_gameState
-				+ (dm:_creatureLabel,(dm:&quot;creature&quot;,_creature))
+				+ (dm:_creature&#39;s label,
+					_gameState&#39;s (_creature&#39;s label)
+					+ (dm:&quot;creature&quot;,_creature)
+				)
 			)
 		]]
 		=|=
@@ -1127,7 +1171,10 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		(link:&quot;Save &amp; Return&quot;)[(replace:?Passage)[
 			(_cmMainMenuUI:
 				_gameState
-				+ (dm:_creature&#39;s label,(dm:&quot;creature&quot;,_creature))
+				+ (dm:_creature&#39;s label,
+					_gameState&#39;s (_creature&#39;s label)
+					+ (dm:&quot;creature&quot;,_creature)
+				)
 			)
 		]]
 		=|=
@@ -1137,12 +1184,12 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		|==|
 	]
 ]
-])))</tw-passagedata><tw-passagedata pid="23" name="04 Game UI" tags="startup" position="200,700" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="23" name="05 Game UI" tags="startup" position="200,900" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;GameUI&quot;,
 (macro: datamap-type _gameState, [
 (output:)[
-	($cmPlayerHeaderUI: _gameState)
+	($cmPlayerTopbarUI: _gameState)
 	($cmGameBoardUI: _gameState)
 	($cmPlayerChoiceUI: _gameState)
 ]
