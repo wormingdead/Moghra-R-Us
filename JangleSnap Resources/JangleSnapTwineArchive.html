@@ -5,7 +5,7 @@
 tw-story {
   padding: 0% 20%;
   line-height: 1em;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="03 Creature Setup" tags="startup" position="100,500" size="100,100">{=
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="03 Creature Setup" tags="startup" position="700,200" size="100,100">{=
 (set: $dmCreatureNameDefaults to (dm:
 	&quot;pc&quot; ,&quot;Traveler&quot;,
 	&quot;npc&quot;,&quot;Unnamed Snapjaw&quot;
@@ -69,7 +69,7 @@ tw-story {
 		_v &gt;= 16,(floor:(_v - 16) / 2),
 		(ceil:(_v - 16) / 2)
 	))
-]))</tw-passagedata><tw-passagedata pid="2" name="05 Main Menu UI" tags="startup" position="300,900" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="2" name="06 Main Menu UI" tags="startup" position="1300,400" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;MainMenuUI&quot;,
 (macro: datamap-type _gameState, [
@@ -102,7 +102,7 @@ tw-story {
 		]
 	]
 ]
-])))</tw-passagedata><tw-passagedata pid="3" name="03 Game Setup" tags="startup" position="300,500" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="3" name="03 Game Setup" tags="startup" position="700,400" size="100,100">{=
 (set: $arGamePositions to (a:
 	&quot;Wanderer&quot;,
 	&quot;Merchant&quot;,
@@ -166,7 +166,7 @@ tw-story {
 		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
 		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
 	))
-]))</tw-passagedata><tw-passagedata pid="4" name="04 Player Topbar UI" tags="startup" position="200,700" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="4" name="05 Player Topbar UI" tags="startup" position="1100,300" size="100,100">{=
 (set: $cmPlayerTopbarUI to (macro: datamap-type _gameState, [
 	(set: _pc to _gameState&#39;s pc&#39;s creature)
 	(set: _stats to _pc&#39;s stats)
@@ -199,7 +199,7 @@ tw-story {
 		|==|
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="5" name="04 Game Board UI" tags="startup" position="100,700" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="5" name="05 Game Board UI" tags="startup" position="1100,200" size="100,100">{=
 (set: $cmGameBoardUI to (macro: datamap-type _gameState, [
 (output:)[
 	(align:&quot;=&gt;&lt;=&quot;)+
@@ -227,7 +227,7 @@ tw-story {
 		You are in &#39;&#39;(print:_gameState&#39;s pc&#39;s position)&#39;&#39; Position
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="6" name="04 Player Choice UI" tags="startup" position="300,700" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="6" name="05 Player Choice UI" tags="startup" position="1100,400" size="100,100">{=
 (set: $cmPlayerChoiceUI to (macro: datamap-type _gameState, [
 (output:)[
 	(align:&quot;&lt;==&quot;)+
@@ -252,7 +252,7 @@ tw-story {
 		|==|
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="7" name="03 Dice Setup" tags="startup" position="200,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="7" name="03 Dice Setup" tags="startup" position="700,300" size="100,100">{=
 (set: $arDieSidesD4 to
 (a:
 	&quot;Turret&quot;   ,
@@ -317,7 +317,7 @@ tw-story {
 
 (set: $cmDiceResult to (macro: array-type _dice, [
 	(output-data:(altered:_die via ($cmDieResult:_die), ..._dice))
-]))</tw-passagedata><tw-passagedata pid="8" name="Foraging Wanderer Roll Results" tags="" position="1200,500" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="8" name="Foraging Wanderer Roll Results" tags="" position="450,350" size="100,100">{=
 (set: $arFWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FW Loss&quot;,
@@ -362,7 +362,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="9" name="Scavenging Wanderer Rolls Results" tags="" position="1400,500" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="9" name="Scavenging Wanderer Rolls Results" tags="" position="550,450" size="100,100">{=
 (set: $arSWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SW Loss&quot;,
@@ -424,7 +424,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="10" name="Foraging Merchant Roll Results" tags="" position="1200,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="10" name="Foraging Merchant Roll Results" tags="" position="450,550" size="100,100">{=
 (set: $arFMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
@@ -503,7 +503,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="11" name="Scavenging Merchant Roll Results" tags="" position="1400,700" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="11" name="Scavenging Merchant Roll Results" tags="" position="550,650" size="100,100">{=
 (set: $arSMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
@@ -562,7 +562,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="12" name="Foraging Pilgrim Roll Results" tags="" position="1200,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="12" name="Foraging Pilgrim Roll Results" tags="" position="450,750" size="100,100">{=
 (set: $arFPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
@@ -618,7 +618,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="13" name="Scavenging Pilgrim Roll Results" tags="" position="1400,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="13" name="Scavenging Pilgrim Roll Results" tags="" position="550,850" size="100,100">{=
 (set: $arSPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
@@ -680,7 +680,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="14" name="Foraging Ascendant Roll Results" tags="" position="1200,1100" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="14" name="Foraging Ascendant Roll Results" tags="" position="450,950" size="100,100">{=
 (set: $arFARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
@@ -725,7 +725,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="15" name="Scavenging Ascendant Roll Results" tags="" position="1400,1100" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="15" name="Scavenging Ascendant Roll Results" tags="" position="550,1050" size="100,100">{=
 (set: $arSARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
@@ -776,7 +776,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="16" name="Result Rule Examiner" tags="" position="1200,300" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="16" name="Result Rule Examiner" tags="" position="1700,300" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;resultRuleCond&quot;,
 (macro:
@@ -835,7 +835,7 @@ $dmRecursionHelper + (dm:
 		_ruleField&#39;s name is &quot;positions&quot;,
 			_playerState&#39;s position is in _ruleField&#39;s value
 	))
-])))</tw-passagedata><tw-passagedata pid="17" name="01 Recursion Setup" tags="startup" position="100,100" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="17" name="01 Recursion Setup" tags="startup" position="300,200" size="100,100">{=
 &lt;!--
 Harlowe doesn&#39;t support recursion by default, as variable names are not bound until after the declaration block is checked for correctness. This means that macros cannot refer to themselves and that macro declared earlier cannot refer to macros declared later, due to strict ordering of declarations (and startup pages).
 
@@ -866,7 +866,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 --&gt;
 
-(set: $r7n to (dm:))</tw-passagedata><tw-passagedata pid="18" name="Result Rule Applier" tags="" position="1400,300" size="100,100">{=
+(set: $r7n to (dm:))</tw-passagedata><tw-passagedata pid="18" name="Result Rule Applier" tags="" position="1900,300" size="100,100">{=
 (set: _cmRuleEffectApp to
 (macro:
 	datamap-type _gameState,
@@ -905,7 +905,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		_gameState,
 		...(dataentries:_ruleEffects)
 	))
-]))</tw-passagedata><tw-passagedata pid="19" name="02 Choice Rules" tags="startup" position="100,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="19" name="02 Choice Rules" tags="startup" position="500,200" size="100,100">{=
 (set: $arRollChoiceRules to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;Foraging NoCheat&quot;,
@@ -976,7 +976,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	&quot;description&quot;,&quot;Keep Scavenging, pass Foraging die&quot;
 )
 
-))</tw-passagedata><tw-passagedata pid="20" name="03 Roll Choice Setup" tags="startup" position="400,500" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="20" name="03 Roll Choice Setup" tags="startup" position="700,500" size="100,100">{=
 (set: $cmFairRollCalc to (macro: datamap-type _creature, [
 	(set: _agiM to ($cmGetStatValueMod:
 		1st of (find:
@@ -1006,26 +1006,6 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	))
 ]))
 
-(set: $cmChoiceLinkCreate to (macro:
-	datamap-type _gameState,
-	datamap-type _choiceRule,
-[
-	(set: _pc to _gameState&#39;s pc&#39;s creature)
-	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pc) * 100))
-	(set: _oddsStr to (cond:
-		_odds &lt; 100, &quot; &#96;[&#96;&quot; + (str:_odds) + &quot;%&#96;]&#96;&quot;,
-		&quot;&quot;
-	))
-
-(output:)[
-	(link:_choiceRule&#39;s description + _oddsStr)[
-		(replace:?Passage)[
-			($cmRollChoiceApply:_gameState,_pc,_choiceRule)
-		]
-	]
-]
-]))
-
 (set: $cmChoiceFilter to (macro:
 	datamap-type _gameState,
 	datamap-type _creature,
@@ -1039,7 +1019,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 			..._arRollChoiceRules
 		)
 	)
-]))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Handler" tags="" position="1800,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Handler" tags="" position="2300,300" size="100,100">{=
 (set: $cmRoll to (macro:
 	datamap-type _gameState,
 	datamap-type _choiceRule,
@@ -1093,7 +1073,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	$dmGameState,
 	$dmPCRollChoice,
 	($cmNPCRollChooser:$dmGameState,$arRollChoiceRules)
-))</tw-passagedata><tw-passagedata pid="22" name="05 Creature Editor UI" tags="startup" position="100,900" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="22" name="06 Creature Editor UI" tags="startup" position="1300,200" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;CreatureEditorUI&quot;,
 (macro:
@@ -1184,7 +1164,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		|==|
 	]
 ]
-])))</tw-passagedata><tw-passagedata pid="23" name="05 Game UI" tags="startup" position="200,900" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="23" name="06 Game UI" tags="startup" position="1300,300" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;GameUI&quot;,
 (macro: datamap-type _gameState, [
@@ -1193,7 +1173,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	($cmGameBoardUI: _gameState)
 	($cmPlayerChoiceUI: _gameState)
 ]
-])))</tw-passagedata><tw-passagedata pid="24" name="Notes: Game Loop" tags="" position="900,100" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="24" name="Notes: Game Loop" tags="" position="100,200" size="100,100">{=
 &lt;!--
 Core Game Loop:
 
@@ -1210,7 +1190,29 @@ Core Game Loop:
 5b. Loop back to #1
 	- Use (replace: ?Passage) to get rid of old UI
 --&gt;
-</tw-passagedata><tw-passagedata pid="25" name="Main" tags="" position="500,100" size="100,100">{=
+</tw-passagedata><tw-passagedata pid="25" name="Main" tags="" position="100,100" size="100,100">{=
 (set: _cmMainMenuUI to $r7n&#39;s MainMenuUI)
-(replace:?Passage)[(_cmMainMenuUI:($cmGameStateCreate:&quot;pc&quot;,&quot;npc&quot;))]</tw-passagedata></tw-storydata>
+(replace:?Passage)[(_cmMainMenuUI:($cmGameStateCreate:&quot;pc&quot;,&quot;npc&quot;))]</tw-passagedata><tw-passagedata pid="26" name="04 Roll Choice Link Setup" tags="startup" position="900,200" size="100,100">{=
+(set: $cmChoiceLinkCreate to (macro:
+	datamap-type _gameState,
+	datamap-type _choiceRule,
+[
+	(set: _pc to _gameState&#39;s pc&#39;s creature)
+	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pc) * 100))
+	(set: _oddsStr to (cond:
+		_odds &lt; 100, &quot; &#96;[&#96;&quot; + (str:_odds) + &quot;%&#96;]&#96;&quot;,
+		&quot;&quot;
+	))
+
+(output:)[
+	(link:_choiceRule&#39;s description + _oddsStr)[
+		(replace:?Passage)[
+			($cmRollChoiceApply:_gameState,_pc,_choiceRule)
+		]
+	]
+]
+]))</tw-passagedata><tw-passagedata pid="27" name="Notes: Better Passing of GameState" tags="" position="100,300" size="100,100">&lt;!--
+There&#39;s a few places where &#96;gameState&#96; and a &#96;creature&#96; are passed, and a way to remove the redundancy would be to make gameState a zipper-type structure, focused on the creature. Rotating &#96;gameState&#96; could be done with an &#39;opponent&#39; key.
+Not sure it&#39;s worth doing at this point, though.
+--&gt;</tw-passagedata></tw-storydata>
 
