@@ -6,11 +6,6 @@ tw-story {
   padding: 0% 20%;
   line-height: 1em;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="03 Creature Setup" tags="startup" position="700,200" size="100,100">{=
-(set: $dmCreatureNameDefaults to (dm:
-	&quot;pc&quot; ,&quot;Traveler&quot;,
-	&quot;npc&quot;,&quot;Unnamed Snapjaw&quot;
-))
-
 (set: $arStatsDefault to (a:
 	(dm:
 		&quot;name&quot; ,&quot;Strength&quot;,
@@ -48,17 +43,24 @@ tw-story {
 
 (set: $cmCreatureCreate to (macro:
 	str-type _name,
-	str-type _label,
 	array-type _stats,
 	array-type _mutations,
 	array-type _cybernetics,
 [
 	(output-data:(dm:
 		&quot;name&quot;,_name,
-		&quot;label&quot;,_label,
 		&quot;stats&quot;,_stats,
 		&quot;mutations&quot;,_mutations,
 		&quot;cybernetics&quot;,_cybernetics
+	))
+]))
+
+(set: $cmCreatureCreateDefault to (macro: str-type _name, [
+	(output-data:($cmCreatureCreate:
+		_name,
+		$arStatsDefault,
+		(a:),
+		(a:)
 	))
 ]))
 
@@ -90,14 +92,14 @@ tw-story {
 		(link:&quot;Edit Your Character&quot;)[
 			(replace:?Passage)[(_cmCreatureEditorUI:
 				_gameState,
-				_gameState&#39;s pc&#39;s creature
+				false
 			)]
 		] &lt;br&gt;
 		&lt;br&gt;
 		(link:&quot;Edit Your Opponent&quot;)[
 			(replace:?Passage)[(_cmCreatureEditorUI:
-				_gameState,
-				_gameState&#39;s npc&#39;s creature
+				($cmGameRotate:_gameState),
+				true
 			)]
 		]
 	]
@@ -116,41 +118,30 @@ tw-story {
 ))
 
 (set: $cmGameStateCreate to (macro:
-	str-type _pcLabel,
-	str-type _npcLabel,
+	datamap-type _pc,
+	datamap-type _npc,
 [
-(output-data:
-	(dm:
-		_pcLabel,(dm:
-			&quot;creature&quot;,($cmCreatureCreate:
-				$dmCreatureNameDefaults&#39;s (_pcLabel),
-				_pcLabel,
-				$arStatsDefault,
-				(a:),
-				(a:)
-			),
-			&quot;dice&quot;,(a:
-				($cmCreateDie:&quot;d6&quot;),
-				($cmCreateDie:&quot;d6&quot;)
-			),
-			&quot;position&quot;,1st of $arGamePositions
+	(output-data:(dm:
+		&quot;creature&quot;,_pc,
+		&quot;dice&quot;,(a:
+			($cmCreateDie:&quot;d6&quot;),
+			($cmCreateDie:&quot;d6&quot;)
 		),
-		_npcLabel,(dm:
-			&quot;creature&quot;,($cmCreatureCreate:
-				$dmCreatureNameDefaults&#39;s (_npcLabel),
-				_npcLabel,
-				$arStatsDefault,
-				(a:),
-				(a:)
-			),
+		&quot;position&quot;,1st of $arGamePositions,
+		&quot;opponent&quot;,(dm:
+			&quot;creature&quot;,_npc,
 			&quot;dice&quot;,(a:
 				($cmCreateDie:&quot;d4&quot;),
 				($cmCreateDie:&quot;d6&quot;)
 			),
 			&quot;position&quot;,1st of $arGamePositions
 		)
-	)
-)
+	))
+]))
+
+(set: $cmGameRotate to (macro: datamap-type _gameState, [
+	(move: _gameState&#39;s opponent into _newGameState)
+	(output-data:_newGameState + (dm:&quot;opponent&quot;,_gameState))
 ]))
 
 (set: $cmGetDiceHand to (macro: array-type _dice, [
@@ -168,8 +159,7 @@ tw-story {
 	))
 ]))</tw-passagedata><tw-passagedata pid="4" name="05 Player Topbar UI" tags="startup" position="1100,300" size="100,100">{=
 (set: $cmPlayerTopbarUI to (macro: datamap-type _gameState, [
-	(set: _pc to _gameState&#39;s pc&#39;s creature)
-	(set: _stats to _pc&#39;s stats)
+	(set: _pc to _gameState&#39;s creature)
 (output:)[
 	(align:&quot;=&gt;&lt;=&quot;)+
 	(b4r:&quot;none&quot;,&quot;none&quot;,&quot;dotted&quot;)+
@@ -179,43 +169,44 @@ tw-story {
 		=|=
 		&#39;&#39;(print:_pc&#39;s name)&#39;&#39;
 		=|=
-		&#39;&#39;//(print:_stats&#39;s 1st&#39;s label)//&#39;&#39; &lt;br&gt;
-		&#39;&#39;(print:_stats&#39;s 1st&#39;s value)&#39;&#39;
+		&#39;&#39;//(print:_pc&#39;s stats&#39;s 1st&#39;s label)//&#39;&#39; &lt;br&gt;
+		&#39;&#39;(print:_pc&#39;s stats&#39;s 1st&#39;s value)&#39;&#39;
 		=|=
-		&#39;&#39;//(print:_stats&#39;s 2nd&#39;s label)//&#39;&#39; &lt;br&gt;
-		&#39;&#39;(print:_stats&#39;s 2nd&#39;s value)&#39;&#39;
+		&#39;&#39;//(print:_pc&#39;s stats&#39;s 2nd&#39;s label)//&#39;&#39; &lt;br&gt;
+		&#39;&#39;(print:_pc&#39;s stats&#39;s 2nd&#39;s value)&#39;&#39;
 		=|=
-		&#39;&#39;//(print:_stats&#39;s 3rd&#39;s label)//&#39;&#39; &lt;br&gt;
-		&#39;&#39;(print:_stats&#39;s 3rd&#39;s value)&#39;&#39;
+		&#39;&#39;//(print:_pc&#39;s stats&#39;s 3rd&#39;s label)//&#39;&#39; &lt;br&gt;
+		&#39;&#39;(print:_pc&#39;s stats&#39;s 3rd&#39;s value)&#39;&#39;
 		=|=
-		&#39;&#39;//(print:_stats&#39;s 4th&#39;s label)//&#39;&#39; &lt;br&gt;
-		&#39;&#39;(print:_stats&#39;s 4th&#39;s value)&#39;&#39;
+		&#39;&#39;//(print:_pc&#39;s stats&#39;s 4th&#39;s label)//&#39;&#39; &lt;br&gt;
+		&#39;&#39;(print:_pc&#39;s stats&#39;s 4th&#39;s value)&#39;&#39;
 		=|=
-		&#39;&#39;//(print:_stats&#39;s 5th&#39;s label)//&#39;&#39; &lt;br&gt;
-		&#39;&#39;(print:_stats&#39;s 5th&#39;s value)&#39;&#39;
+		&#39;&#39;//(print:_pc&#39;s stats&#39;s 5th&#39;s label)//&#39;&#39; &lt;br&gt;
+		&#39;&#39;(print:_pc&#39;s stats&#39;s 5th&#39;s value)&#39;&#39;
 		=|=
-		&#39;&#39;//(print:_stats&#39;s 6th&#39;s label)//&#39;&#39; &lt;br&gt;
-		&#39;&#39;(print:_stats&#39;s 6th&#39;s value)&#39;&#39;
+		&#39;&#39;//(print:_pc&#39;s stats&#39;s 6th&#39;s label)//&#39;&#39; &lt;br&gt;
+		&#39;&#39;(print:_pc&#39;s stats&#39;s 6th&#39;s value)&#39;&#39;
 		|==|
 	]
 ]
 ]))</tw-passagedata><tw-passagedata pid="5" name="05 Game Board UI" tags="startup" position="1100,200" size="100,100">{=
 (set: $cmGameBoardUI to (macro: datamap-type _gameState, [
+	(set: _opponentState to _gameState&#39;s opponent)
 (output:)[
 	(align:&quot;=&gt;&lt;=&quot;)+
 	(box:&quot;=XXXXXXX=&quot;)+
 	(text-size:0.75)[
-		Opponent in &#39;&#39;(print:_gameState&#39;s npc&#39;s position)&#39;&#39; Position &lt;br&gt;
-		(print:_gameState&#39;s npc&#39;s creature&#39;s name)&#39;s Side &gt;
+		Opponent in &#39;&#39;(print:_opponentState&#39;s position)&#39;&#39; Position &lt;br&gt;
+		(print:_opponentState&#39;s creature&#39;s name)&#39;s Side &gt;
 	]
 	(align:&quot;=&gt;&lt;=&quot;)+
 	(box:&quot;=XXXXXXX=&quot;)[
 		=|=
-		(for: each _die, ..._gameState&#39;s pc&#39;s dice)[
+		(for: each _die, ..._gameState&#39;s dice)[
 			($cmDiePrint:_die)
 		]
 		=|=
-		(for: each _die, ..._gameState&#39;s npc&#39;s dice)[
+		(for: each _die, ..._opponentState&#39;s dice)[
 			($cmDiePrint:_die)
 		]
 		|==|
@@ -224,7 +215,7 @@ tw-story {
 	(box:&quot;=XXXXXXX=&quot;)+
 	(text-size:0.75)[
 		&lt; Your Side &lt;br&gt;
-		You are in &#39;&#39;(print:_gameState&#39;s pc&#39;s position)&#39;&#39; Position
+		You are in &#39;&#39;(print:_gameState&#39;s position)&#39;&#39; Position
 	]
 ]
 ]))</tw-passagedata><tw-passagedata pid="6" name="05 Player Choice UI" tags="startup" position="1100,400" size="100,100">{=
@@ -239,7 +230,6 @@ tw-story {
 		]
 		(for: each _choice, ...($cmChoiceFilter:
 			_gameState,
-			_gameState&#39;s pc&#39;s creature,
 			$arRollChoiceRules,
 		))[
 			($cmChoiceLinkCreate:_gameState,_choice)
@@ -284,15 +274,15 @@ tw-story {
 	(cond:
 		_dieKind is &quot;d4&quot;,
 		$dmAbstractDie
+		+ (dm:&quot;colour&quot;,red)
 		+ (dm:&quot;kind&quot;  ,&quot;d4&quot;)
 		+ (dm:&quot;sides&quot; ,$arDieSidesD4)
-		+ (dm:&quot;colour&quot;,red)
 		,
 		_dieKind is &quot;d6&quot;,
 		$dmAbstractDie
+		+ (dm:&quot;colour&quot;,grey)
 		+ (dm:&quot;kind&quot;  ,&quot;d6&quot;)
 		+ (dm:&quot;sides&quot; ,$arDieSidesD6)
-		+ (dm:&quot;colour&quot;,grey)
 	)
 )
 ]))
@@ -984,10 +974,10 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 			..._creature&#39;s stats
 		)
 	))
-	(output-data: (cond:
+	(output-data:(cond:
 		_agiM &gt;= 1, 1.0,
 		(6 + _agiM) * (6 + _agiM) / (6 * 6 + 1)
-		+ 0.67 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
+		+ 2 / 3 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
 	))
 ]))
 
@@ -995,7 +985,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	datamap-type _choiceRule,
 	datamap-type _creature,
 [
-	(output-data: (folded:
+	(output-data:(folded:
 		_effect making _odds via (cond:
 			_effect&#39;s rollType is &quot;fairRoll&quot;,
 				($cmFairRollCalc:_creature) * _odds,
@@ -1008,17 +998,15 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 (set: $cmChoiceFilter to (macro:
 	datamap-type _gameState,
-	datamap-type _creature,
 	array-type _arRollChoiceRules,
 [
-	(set: _dice to (_gameState&#39;s (_creature&#39;s label))&#39;s dice)
-	(output-data:
-		(find: _choice where
-			_choice&#39;s diceHand is ($cmGetDiceHand:_dice)
-				and ($cmRollOddsCalc:_choice,_creature) &gt; 0,
-			..._arRollChoiceRules
-		)
-	)
+	(set: _dice to _gameState&#39;s dice)
+	(set: _creature to _gameState&#39;s creature)
+	(output-data:(find:
+		_choice where _choice&#39;s diceHand is ($cmGetDiceHand:_dice)
+			and ($cmRollOddsCalc:_choice,_creature) &gt; 0,
+		..._arRollChoiceRules
+	))
 ]))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Handler" tags="" position="2300,300" size="100,100">{=
 (set: $cmRoll to (macro:
 	datamap-type _gameState,
@@ -1078,25 +1066,27 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 &quot;CreatureEditorUI&quot;,
 (macro:
 	datamap-type _gameState,
-	datamap-type _creature,
+	bool-type _rotate,
 [
 	(set: _cmMainMenuUI to $r7n&#39;s MainMenuUI)
+	(set: _creature to _gameState&#39;s creature)
 (output:)[
 	(align:&quot;=&gt;&lt;=&quot;)+
 	(box:&quot;=X=&quot;)[
 		=|=
 		(link:&quot;Save &amp; Return&quot;)[(replace:?Passage)[
-			(_cmMainMenuUI:
-				_gameState
-				+ (dm:_creature&#39;s label,
-					_gameState&#39;s (_creature&#39;s label)
-					+ (dm:&quot;creature&quot;,_creature)
-				)
-			)
+			(_cmMainMenuUI:(cond:
+				_rotate,($cmGameRotate:
+					_gameState + (dm:&quot;creature&quot;,_creature)),
+				_gameState + (dm:&quot;creature&quot;,_creature)
+			))
 		]]
 		=|=
 		(link:&quot;Cancel&quot;)[(replace:?Passage)[
-			(_cmMainMenuUI:_gameState)
+			(_cmMainMenuUI:(cond:
+				_rotate,($cmGameRotate:_gameState),
+				_gameState
+			))
 		]]
 		|==|
 	]
@@ -1149,17 +1139,18 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	(box:&quot;=X=&quot;)[
 		=|=
 		(link:&quot;Save &amp; Return&quot;)[(replace:?Passage)[
-			(_cmMainMenuUI:
-				_gameState
-				+ (dm:_creature&#39;s label,
-					_gameState&#39;s (_creature&#39;s label)
-					+ (dm:&quot;creature&quot;,_creature)
-				)
-			)
+			(_cmMainMenuUI:(cond:
+				_rotate,($cmGameRotate:
+					_gameState + (dm:&quot;creature&quot;,_creature)),
+				_gameState + (dm:&quot;creature&quot;,_creature)
+			))
 		]]
 		=|=
 		(link:&quot;Cancel&quot;)[(replace:?Passage)[
-			(_cmMainMenuUI:_gameState)
+			(_cmMainMenuUI:(cond:
+				_rotate,($cmGameRotate:_gameState),
+				_gameState
+			))
 		]]
 		|==|
 	]
@@ -1192,12 +1183,15 @@ Core Game Loop:
 --&gt;
 </tw-passagedata><tw-passagedata pid="25" name="Main" tags="" position="100,100" size="100,100">{=
 (set: _cmMainMenuUI to $r7n&#39;s MainMenuUI)
-(replace:?Passage)[(_cmMainMenuUI:($cmGameStateCreate:&quot;pc&quot;,&quot;npc&quot;))]</tw-passagedata><tw-passagedata pid="26" name="04 Roll Choice Link Setup" tags="startup" position="900,200" size="100,100">{=
+(replace:?Passage)[(_cmMainMenuUI:($cmGameStateCreate:
+	($cmCreatureCreateDefault:&quot;Traveler&quot;),
+	($cmCreatureCreateDefault:&quot;Kiuun Kiqat, Snapjaw Hunter&quot;)
+))]</tw-passagedata><tw-passagedata pid="26" name="04 Roll Choice Link Setup" tags="startup" position="900,200" size="100,100">{=
 (set: $cmChoiceLinkCreate to (macro:
 	datamap-type _gameState,
 	datamap-type _choiceRule,
 [
-	(set: _pc to _gameState&#39;s pc&#39;s creature)
+	(set: _pc to _gameState&#39;s creature)
 	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pc) * 100))
 	(set: _oddsStr to (cond:
 		_odds &lt; 100, &quot; &#96;[&#96;&quot; + (str:_odds) + &quot;%&#96;]&#96;&quot;,
@@ -1207,12 +1201,14 @@ Core Game Loop:
 (output:)[
 	(link:_choiceRule&#39;s description + _oddsStr)[
 		(replace:?Passage)[
-			($cmRollChoiceApply:_gameState,_pc,_choiceRule)
+			($cmRollChoiceApply:_gameState,_choiceRule)
 		]
 	]
 ]
 ]))</tw-passagedata><tw-passagedata pid="27" name="Notes: Better Passing of GameState" tags="" position="100,300" size="100,100">&lt;!--
 There&#39;s a few places where &#96;gameState&#96; and a &#96;creature&#96; are passed, and a way to remove the redundancy would be to make gameState a zipper-type structure, focused on the creature. Rotating &#96;gameState&#96; could be done with an &#39;opponent&#39; key.
 Not sure it&#39;s worth doing at this point, though.
+
+I did it anyway.
 --&gt;</tw-passagedata></tw-storydata>
 
