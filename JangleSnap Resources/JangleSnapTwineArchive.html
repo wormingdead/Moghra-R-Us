@@ -71,7 +71,7 @@ tw-story {
 		_v &gt;= 16,(floor:(_v - 16) / 2),
 		(ceil:(_v - 16) / 2)
 	))
-]))</tw-passagedata><tw-passagedata pid="2" name="06 Main Menu UI" tags="startup" position="1300,400" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="2" name="09 Main Menu UI" tags="startup" position="1900,400" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;MainMenuUI&quot;,
 (macro: datamap-type _gameState, [
@@ -81,27 +81,29 @@ tw-story {
 	(align:&quot;&lt;==&quot;)+
 	(box:&quot;=XXXXXXX=&quot;)[
 		(align:&quot;=&gt;&lt;=&quot;)+
-		(box:&quot;=XXXXXXX=&quot;)[#JangleSnap Demo] &lt;br&gt;
+		(box:&quot;=XXXXX=&quot;)[
+			#JangleSnap Demo
+		] &lt;br&gt;
 		&lt;br&gt;
 		&#39;&#39;*TODO*&#39;&#39; Tutorial &lt;br&gt;
 		&lt;br&gt;
-		(link:&quot;New Game&quot;)[
-			(replace:?Passage)[(_cmGameUI:_gameState)]
-		] &lt;br&gt;
+		(link:&quot;New Game&quot;)[(replace:?Passage)[
+			(_cmGameUI:_gameState)
+		]] &lt;br&gt;
 		&lt;br&gt;
-		(link:&quot;Edit Your Character&quot;)[
-			(replace:?Passage)[(_cmCreatureEditorUI:
+		(link:&quot;Edit Your Character&quot;)[(replace:?Passage)[
+			(_cmCreatureEditorUI:
 				_gameState,
 				false
-			)]
-		] &lt;br&gt;
+			)
+		]] &lt;br&gt;
 		&lt;br&gt;
-		(link:&quot;Edit Your Opponent&quot;)[
-			(replace:?Passage)[(_cmCreatureEditorUI:
+		(link:&quot;Edit Your Opponent&quot;)[(replace:?Passage)[
+			(_cmCreatureEditorUI:
 				($cmGameRotate:_gameState),
 				true
-			)]
-		]
+			)
+		]]
 	]
 ]
 ])))</tw-passagedata><tw-passagedata pid="3" name="03 Game Setup" tags="startup" position="700,400" size="100,100">{=
@@ -112,11 +114,6 @@ tw-story {
 	&quot;Ascendant&quot;
 ))
 
-(set: $arGameDiceHands to (a:
-	&quot;Foraging&quot;,
-	&quot;Scavenging&quot;
-))
-
 (set: $cmGameStateCreate to (macro:
 	datamap-type _pc,
 	datamap-type _npc,
@@ -124,15 +121,15 @@ tw-story {
 	(output-data:(dm:
 		&quot;creature&quot;,_pc,
 		&quot;dice&quot;,(a:
-			($cmCreateDie:&quot;d6&quot;),
-			($cmCreateDie:&quot;d6&quot;)
+			($cmCreateDie:&quot;Foraging&quot;),
+			($cmCreateDie:&quot;Foraging&quot;)
 		),
 		&quot;position&quot;,1st of $arGamePositions,
 		&quot;opponent&quot;,(dm:
 			&quot;creature&quot;,_npc,
 			&quot;dice&quot;,(a:
-				($cmCreateDie:&quot;d4&quot;),
-				($cmCreateDie:&quot;d6&quot;)
+				($cmCreateDie:&quot;Scavenging&quot;),
+				($cmCreateDie:&quot;Foraging&quot;)
 			),
 			&quot;position&quot;,1st of $arGamePositions
 		)
@@ -142,22 +139,7 @@ tw-story {
 (set: $cmGameRotate to (macro: datamap-type _gameState, [
 	(move: _gameState&#39;s opponent into _newGameState)
 	(output-data:_newGameState + (dm:&quot;opponent&quot;,_gameState))
-]))
-
-(set: $cmGetDiceHand to (macro: array-type _dice, [
-	(output-data:(cond:
-		(find: _die where _die&#39;s kind is &quot;d4&quot;, ..._dice)&#39;s length &gt; 0,
-			2nd of $arGameDiceHands,
-		1st of $arGameDiceHands
-	))
-]))
-
-(set: $cmDiceHandOpposite to (macro: string-type _diceHand, [
-	(output-data:(cond:
-		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
-		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
-	))
-]))</tw-passagedata><tw-passagedata pid="4" name="05 Player Topbar UI" tags="startup" position="1100,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="4" name="08 Player Topbar UI" tags="startup" position="1700,300" size="100,100">{=
 (set: $cmPlayerTopbarUI to (macro: datamap-type _gameState, [
 	(set: _pc to _gameState&#39;s creature)
 (output:)[
@@ -189,7 +171,7 @@ tw-story {
 		|==|
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="5" name="05 Game Board UI" tags="startup" position="1100,200" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="5" name="08 Game Board UI" tags="startup" position="1700,200" size="100,100">{=
 (set: $cmGameBoardUI to (macro: datamap-type _gameState, [
 	(set: _opponentState to _gameState&#39;s opponent)
 (output:)[
@@ -218,7 +200,7 @@ tw-story {
 		You are in &#39;&#39;(print:_gameState&#39;s position)&#39;&#39; Position
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="6" name="05 Player Choice UI" tags="startup" position="1100,400" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="6" name="08 Player Choice UI" tags="startup" position="1700,400" size="100,100">{=
 (set: $cmPlayerChoiceUI to (macro: datamap-type _gameState, [
 (output:)[
 	(align:&quot;&lt;==&quot;)+
@@ -243,7 +225,9 @@ tw-story {
 	]
 ]
 ]))</tw-passagedata><tw-passagedata pid="7" name="03 Dice Setup" tags="startup" position="700,300" size="100,100">{=
-(set: $arDieSidesD4 to
+(set: $numDiceID to -1)
+
+(set: $arDieSidesScavenging to
 (a:
 	&quot;Turret&quot;   ,
 	&quot;Moghra&#39;Yi&quot;,
@@ -251,7 +235,7 @@ tw-story {
 	&quot;Spindle&quot;
 ))
 
-(set: $arDieSidesD6 to
+(set: $arDieSidesForaging to
 (a:
 	&quot;Young Ivory&quot;,
 	&quot;Brinestalk&quot; ,
@@ -261,34 +245,39 @@ tw-story {
 	&quot;Tonic&quot;
 ))
 
+(set: $arGameDiceHands to (a:
+	&quot;Foraging&quot;,
+	&quot;Scavenging&quot;
+))
+
 (set: $dmAbstractDie to (dm:
 	&quot;colour&quot; ,transparent,
 	&quot;effects&quot;,(a:),
+	&quot;id&quot;     ,-1,
 	&quot;kind&quot;   ,&quot;&quot;,
 	&quot;sides&quot;  ,(a:),
 	&quot;value&quot;  ,&quot;&quot;
 ))
 
-(set: $cmCreateDie to (macro: string-type _dieKind, [
-(output-data:
-	(cond:
-		_dieKind is &quot;d4&quot;,
-		$dmAbstractDie
-		+ (dm:&quot;colour&quot;,red)
-		+ (dm:&quot;kind&quot;  ,&quot;d4&quot;)
-		+ (dm:&quot;sides&quot; ,$arDieSidesD4)
-		,
-		_dieKind is &quot;d6&quot;,
-		$dmAbstractDie
-		+ (dm:&quot;colour&quot;,grey)
-		+ (dm:&quot;kind&quot;  ,&quot;d6&quot;)
-		+ (dm:&quot;sides&quot; ,$arDieSidesD6)
+(set: $cmCreateDie to (macro: str-type _dieKind, [
+	(set: $numDiceID to $numDiceID + 1)
+	(output-data:
+		(cond:
+			_dieKind is &quot;Scavenging&quot;,
+			$dmAbstractDie
+			+ (dm:&quot;colour&quot;,red)
+			+ (dm:&quot;id&quot;    ,$numDiceID)
+			+ (dm:&quot;kind&quot;  ,&quot;Scavenging&quot;)
+			+ (dm:&quot;sides&quot; ,$arDieSidesScavenging)
+			,
+			_dieKind is &quot;Foraging&quot;,
+			$dmAbstractDie
+			+ (dm:&quot;colour&quot;,grey)
+			+ (dm:&quot;id&quot;    ,$numDiceID)
+			+ (dm:&quot;kind&quot;  ,&quot;Foraging&quot;)
+			+ (dm:&quot;sides&quot; ,$arDieSidesForaging)
+		)
 	)
-)
-]))
-
-(set: $cmDieRoll to (macro: datamap-type _die, [
-	(output-data:_die + (dm:&quot;value&quot;,(either: ..._die&#39;s sides)))
 ]))
 
 (set: $cmDiePrint to (macro: datamap-type _die, [
@@ -301,13 +290,28 @@ tw-story {
 ]
 ]))
 
+(set: $cmDiceHandOpposite to (macro: str-type _diceHand, [
+	(output-data:(cond:
+		_diceHand is 1st of $arGameDiceHands,2nd of $arGameDiceHands
+		_diceHand is 2nd of $arGameDiceHands,1st of $arGameDiceHands
+	))
+]))
+
+(set: $cmGetDiceHand to (macro: array-type _dice, [
+	(output-data:(cond:
+		(find: _die where _die&#39;s kind is &quot;Scavenging&quot;, ..._dice)&#39;s length &gt; 0,
+			2nd of $arGameDiceHands,
+		1st of $arGameDiceHands
+	))
+]))
+
 (set: $cmDieResult to (macro: datamap-type _die, [
 	(output-data:_die&#39;s value)
 ]))
 
 (set: $cmDiceResult to (macro: array-type _dice, [
 	(output-data:(altered:_die via ($cmDieResult:_die), ..._dice))
-]))</tw-passagedata><tw-passagedata pid="8" name="Foraging Wanderer Roll Results" tags="" position="450,350" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="8" name="Foraging Wanderer Roll Results" tags="" position="450,425" size="100,100">{=
 (set: $arFWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FW Loss&quot;,
@@ -352,7 +356,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="9" name="Scavenging Wanderer Rolls Results" tags="" position="550,450" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="9" name="Scavenging Wanderer Rolls Results" tags="" position="550,525" size="100,100">{=
 (set: $arSWRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SW Loss&quot;,
@@ -414,7 +418,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="10" name="Foraging Merchant Roll Results" tags="" position="450,550" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="10" name="Foraging Merchant Roll Results" tags="" position="450,625" size="100,100">{=
 (set: $arFMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
@@ -493,7 +497,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="11" name="Scavenging Merchant Roll Results" tags="" position="550,650" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="11" name="Scavenging Merchant Roll Results" tags="" position="550,725" size="100,100">{=
 (set: $arSMRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
@@ -552,7 +556,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="12" name="Foraging Pilgrim Roll Results" tags="" position="450,750" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="12" name="Foraging Pilgrim Roll Results" tags="" position="450,825" size="100,100">{=
 (set: $arFPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
@@ -608,7 +612,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="13" name="Scavenging Pilgrim Roll Results" tags="" position="550,850" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="13" name="Scavenging Pilgrim Roll Results" tags="" position="550,925" size="100,100">{=
 (set: $arSPRollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
@@ -670,7 +674,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="14" name="Foraging Ascendant Roll Results" tags="" position="450,950" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="14" name="Foraging Ascendant Roll Results" tags="" position="450,1025" size="100,100">{=
 (set: $arFARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
@@ -715,7 +719,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="15" name="Scavenging Ascendant Roll Results" tags="" position="550,1050" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="15" name="Scavenging Ascendant Roll Results" tags="" position="550,1125" size="100,100">{=
 (set: $arSARollResults to (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
@@ -766,7 +770,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="16" name="Result Rule Examiner" tags="" position="1700,300" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="16" name="Result Rule Examiner" tags="" position="1350,750" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;resultRuleCond&quot;,
 (macro:
@@ -856,7 +860,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 
 --&gt;
 
-(set: $r7n to (dm:))</tw-passagedata><tw-passagedata pid="18" name="Result Rule Applier" tags="" position="1900,300" size="100,100">{=
+(set: $r7n to (dm:))</tw-passagedata><tw-passagedata pid="18" name="Result Rule Applier" tags="" position="1550,750" size="100,100">{=
 (set: _cmRuleEffectApp to
 (macro:
 	datamap-type _gameState,
@@ -905,17 +909,13 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	&quot;mutations&quot;,(a:),
 	&quot;cybernetics&quot;,(a:),
 	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
-	&quot;effects&quot;,(a:
-		(dm:
-			&quot;area&quot;,&quot;player&quot;,
+	&quot;effects&quot;,(dm:
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;Foraging&quot;
-		),
-		(dm:
-			&quot;area&quot;,&quot;opponent&quot;,
-			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;Foraging&quot;
-		)
+			&quot;diceKind&quot;,&quot;Foraging&quot;,
+			&quot;opponent&quot;,(dm:
+				&quot;rollType&quot;,&quot;fairRoll&quot;,
+				&quot;diceKind&quot;,&quot;Foraging&quot;
+			)
 	),
 	&quot;description&quot;,&quot;Roll Foraging die in each area&quot;
 ),
@@ -928,17 +928,13 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	&quot;mutations&quot;,(a:),
 	&quot;cybernetics&quot;,(a:),
 	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
-	&quot;effects&quot;,(a:
-		(dm:
-			&quot;area&quot;,&quot;player&quot;,
+	&quot;effects&quot;,(dm:
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;Foraging&quot;
-		),
-		(dm:
-			&quot;area&quot;,&quot;opponent&quot;,
-			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;Scavenging&quot;
-		)
+			&quot;diceKind&quot;,&quot;Foraging&quot;,
+			&quot;opponent&quot;,(dm:
+				&quot;rollType&quot;,&quot;fairRoll&quot;,
+				&quot;diceKind&quot;,&quot;Scavenging&quot;
+			)
 	),
 	&quot;description&quot;,&quot;Pass Scavenging die, roll Foraging&quot;
 ),
@@ -951,39 +947,21 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	&quot;mutations&quot;,(a:),
 	&quot;cybernetics&quot;,(a:),
 	&quot;diceStates&quot;,(a:&quot;NoEffect&quot;),
-	&quot;effects&quot;,(a:
-		(dm:
-			&quot;area&quot;,&quot;player&quot;,
+	&quot;effects&quot;,(dm:
 			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;Scavenging&quot;
-		),
-		(dm:
-			&quot;area&quot;,&quot;opponent&quot;,
-			&quot;rollType&quot;,&quot;fairRoll&quot;,
-			&quot;diceType&quot;,&quot;Foraging&quot;
-		),
+			&quot;diceKind&quot;,&quot;Scavenging&quot;,
+			&quot;opponent&quot;,(dm:
+				&quot;rollType&quot;,&quot;fairRoll&quot;,
+				&quot;diceKind&quot;,&quot;Foraging&quot;
+			)
 	),
 	&quot;description&quot;,&quot;Keep Scavenging, pass Foraging die&quot;
 )
 
 ))</tw-passagedata><tw-passagedata pid="20" name="03 Roll Choice Setup" tags="startup" position="700,500" size="100,100">{=
-(set: $cmFairRollCalc to (macro: datamap-type _creature, [
-	(set: _agiM to ($cmGetStatValueMod:
-		1st of (find:
-			_stat where _stat&#39;s label is &quot;AGI&quot;,
-			..._creature&#39;s stats
-		)
-	))
-	(output-data:(cond:
-		_agiM &gt;= 1, 1.0,
-		(6 + _agiM) * (6 + _agiM) / (6 * 6 + 1)
-		+ 2 / 3 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
-	))
-]))
-
 (set: $cmRollOddsCalc to (macro:
-	datamap-type _choiceRule,
 	datamap-type _creature,
+	datamap-type _choiceRule,
 [
 	(output-data:(folded:
 		_effect making _odds via (cond:
@@ -992,7 +970,8 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 			0
 		),
 		1.0,
-		..._choiceRule&#39;s effects
+		_choiceRule&#39;s effects,
+		_choiceRule&#39;s effects&#39;s opponent
 	))
 ]))
 
@@ -1004,64 +983,119 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 	(set: _creature to _gameState&#39;s creature)
 	(output-data:(find:
 		_choice where _choice&#39;s diceHand is ($cmGetDiceHand:_dice)
-			and ($cmRollOddsCalc:_choice,_creature) &gt; 0,
+			and _gameState&#39;s position is in _choice&#39;s positions
+			and ($cmRollOddsCalc:_creature,_choice) &gt; 0,
 		..._arRollChoiceRules
 	))
-]))</tw-passagedata><tw-passagedata pid="21" name="Roll Choice Handler" tags="" position="2300,300" size="100,100">{=
-(set: $cmRoll to (macro:
+]))</tw-passagedata><tw-passagedata pid="21" name="05 Roll Choice Applicator" tags="startup" position="1100,200" size="100,100">{=
+(set: $cmRollEffects to (macro:
+	datamap-type _creature,
+	datamap-type _choiceE,
+	datamap-type _die,
+[
+	(output-data:(cond:
+		_choiceE&#39;s rollType is &quot;fairRoll&quot;,
+			($cmFairRollEffect:_creature,_die),
+		_choiceE&#39;s rollType is &quot;&quot;,
+			(dm:)
+	))
+]))
+
+(set: $cmRollChoiceApp to (macro:
 	datamap-type _gameState,
-	datamap-type _choiceRule,
-	array-type _dice,
-	str-type _creatureLabel,
+	datamap-type _choiceE,
+[
+	(set: _creature to _gameState&#39;s creature)
+	(move: _choiceE&#39;s opponent into _choiceEOpp)
+	(set: _dice to _gameState&#39;s dice)
+	
+	(set: _playerDie to (find:
+		_die where _die&#39;s kind is _choiceE&#39;s diceKind,
+		..._dice
+	)&#39;s 1st)
+	(set: _dice to _dice - (a:_playerDie))
+	
+	(set: _oppDie to (find:
+		_die where _die&#39;s kind is _choiceEOpp&#39;s diceKind,
+		..._dice
+	)&#39;s 1st)
+	(set: _result to ($cmRollEffects:
+		_creature,
+		_choiceE,
+		_playerDie
+	))
+	(set: _resultOpp to ($cmRollEffects:
+		_creature,
+		_choiceEOpp,
+		_oppDie
+	))
+	
+	(output-data:(dm:
+		&quot;dice&quot;,(a:_result&#39;s die),
+		&quot;success&quot;,_result&#39;s success and _resultOpp&#39;s success,
+		&quot;opponent&quot;,(dm:
+			&quot;dice&quot;,(a:_resultOpp&#39;s die)
+		)
+	))
+]))
+
+(set: $cmDiceStateCombine to (macro:
+	datamap-type _gameState,
+	datamap-type _diceState1,
+	datamap-type _diceState2,
 [
 	(output-data:
-		
+		_gameState
+		+ (dm:&quot;dice&quot;,(a:
+			_diceState1&#39;s dice,
+			_diceState2&#39;s dice
+		),
+		&quot;opponent&quot;,_gameState&#39;s opponent
+			+ (dm:&quot;dice&quot;,(a:
+				_diceState1&#39;s opponent&#39;s dice,
+				_diceState2&#39;s opponent&#39;s dice,
+			))
+		)
 	)
 ]))
 
-(set: $cmMoveGameDice to (macro:
+(set: $cmRollChoiceApply to (macro:
 	datamap-type _gameState,
+	datamap-type _pcChoice,
+	datamap-type _npcChoice,
 [
-	(unpack: _gameState into (dm:
-		&quot;pc&quot; ,(dm:&quot;dice&quot;,array-type _dice1),
-		&quot;npc&quot;,(dm:&quot;dice&quot;,array-type _dice2)
-	))
-	(output-data:(a:
-		_gameState + (dm:
-			&quot;pc&quot; ,(dm:&quot;dice&quot;,(a:)),
-			&quot;npc&quot;,(dm:&quot;dice&quot;,(a:))
-		),
-		(dm:
-			&quot;pc&quot; ,_dice1,
-			&quot;npc&quot;,_dice2
-		)
-	))
-]))
-
-(set: $cmRollChoiceHandler to (macro:
-	datamap-type _gameState,
-	datamap-type _pcRollChoice,
-	datamap-type _npcRollChoice,
-[
-	(unpack: ($cmGetGameDice:_gameState) into (a:
-		datamap-type _gameState,
-		datamap-type _gameDice
-	))
-	(output-data:(folded:
-		_args making _state via ($cmRoll:_state, ..._args),
+	(set: _pcDiceState to ($cmRollChoiceApp:
 		_gameState,
-		...(a:
-			(a:_pcRollChoice ,_gameDice&#39;s pc ,&quot;pc&quot; ),
-			(a:_npcRollChoice,_gameDice&#39;s npc,&quot;npc&quot;)
-		)
+		_pcChoice&#39;s effects
 	))
-]))
-
-(set: $dmGameState to ($cmRollChoiceHandler:
-	$dmGameState,
-	$dmPCRollChoice,
-	($cmNPCRollChooser:$dmGameState,$arRollChoiceRules)
-))</tw-passagedata><tw-passagedata pid="22" name="06 Creature Editor UI" tags="startup" position="1300,200" size="100,100">{=
+	(move: _pcDiceState&#39;s success into _pcSuccess)
+	(set: _npcDiceState to ($cmRollChoiceApp:
+		($cmGameRotate:_gameState),
+		_npcChoice&#39;s effects
+	))
+	(move: _npcDiceState&#39;s success into _npcSuccess)
+	(set: _gameState to ($cmDiceStateCombine:
+		_gameState,
+		_pcDiceState,
+		($cmGameRotate:_npcDiceState)
+	))
+(output:)[
+	(if: not (_pcSuccess and _npcSuccess))[
+		($cmGameOverUI:
+			_gameState,
+			(dm:
+				&quot;endKind&quot;,&quot;roll&quot;,
+				&quot;pcChoice&quot;,_pcChoice,
+				&quot;pcSuccess&quot;,_pcSuccess,
+				&quot;npcChoice&quot;,_npcChoice,
+				&quot;npcSuccess&quot;,_npcSuccess
+			)
+		)
+	](else:)[
+		($cmRollResultApply:_gameState)
+	]
+]
+]))</tw-passagedata><tw-passagedata pid="22" name="09 Creature Editor UI" tags="startup" position="1900,200" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;CreatureEditorUI&quot;,
 (macro:
@@ -1155,7 +1189,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		|==|
 	]
 ]
-])))</tw-passagedata><tw-passagedata pid="23" name="06 Game UI" tags="startup" position="1300,300" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="23" name="09 Game UI" tags="startup" position="1900,300" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;GameUI&quot;,
 (macro: datamap-type _gameState, [
@@ -1186,13 +1220,13 @@ Core Game Loop:
 (replace:?Passage)[(_cmMainMenuUI:($cmGameStateCreate:
 	($cmCreatureCreateDefault:&quot;Traveler&quot;),
 	($cmCreatureCreateDefault:&quot;Kiuun Kiqat, Snapjaw Hunter&quot;)
-))]</tw-passagedata><tw-passagedata pid="26" name="04 Roll Choice Link Setup" tags="startup" position="900,200" size="100,100">{=
+))]</tw-passagedata><tw-passagedata pid="26" name="07 Roll Choice Link Setup" tags="startup" position="1500,200" size="100,100">{=
 (set: $cmChoiceLinkCreate to (macro:
 	datamap-type _gameState,
 	datamap-type _choiceRule,
 [
 	(set: _pc to _gameState&#39;s creature)
-	(set: _odds to (round:($cmRollOddsCalc:_choiceRule,_pc) * 100))
+	(set: _odds to (round:($cmRollOddsCalc:_pc,_choiceRule) * 100))
 	(set: _oddsStr to (cond:
 		_odds &lt; 100, &quot; &#96;[&#96;&quot; + (str:_odds) + &quot;%&#96;]&#96;&quot;,
 		&quot;&quot;
@@ -1201,7 +1235,7 @@ Core Game Loop:
 (output:)[
 	(link:_choiceRule&#39;s description + _oddsStr)[
 		(replace:?Passage)[
-			($cmRollChoiceApply:_gameState,_choiceRule)
+			($cmGameTurn:_gameState,_choiceRule)
 		]
 	]
 ]
@@ -1210,5 +1244,117 @@ There&#39;s a few places where &#96;gameState&#96; and a &#96;creature&#96; are 
 Not sure it&#39;s worth doing at this point, though.
 
 I did it anyway.
---&gt;</tw-passagedata></tw-storydata>
+--&gt;</tw-passagedata><tw-passagedata pid="28" name="06 Game Turn Setup" tags="startup" position="1300,200" size="100,100">{=
+(set: $cmGameTurn to (macro:
+	datamap-type _gameState,
+	datamap-type _pcChoice,
+[
+	(set: _npcChoice to ($cmAIRollChoice:($cmGameRotate:_gameState)))
+(output:)[
+	($cmRollChoiceApply:_gameState,_pcChoice,_npcChoice)
+]
+]))</tw-passagedata><tw-passagedata pid="29" name="02 Fair Roll Implementation" tags="startup" position="250,550" size="100,100">{=
+(set: $cmFairRollCalc to (macro: datamap-type _creature, [
+	(set: _agiM to ($cmGetStatValueMod:
+		1st of (find:
+			_stat where _stat&#39;s label is &quot;AGI&quot;,
+			..._creature&#39;s stats
+		)
+	))
+	(output-data:(cond:
+		_agiM &gt;= 1, 1.0,
+		(6 + _agiM) * (6 + _agiM) / (6 * 6 + 1)
+		+ 2 / 3 * (1.0 - (6 + _agiM) * (6 + _agiM) / (6 * 6 + 1))
+	))
+]))
+
+(set: $cmFairRollEffect to (macro:
+	datamap-type _creature,
+	datamap-type _die,
+[
+	(set: _success to
+		(random:1,100) &lt;= (round:($cmFairRollCalc:_creature) * 100)
+	)
+	(output-data:(dm:
+		&quot;die&quot;,_die + (dm:&quot;value&quot;,(either: ..._die&#39;s sides)),
+		&quot;success&quot;,_success
+	))
+]))</tw-passagedata><tw-passagedata pid="30" name="04 NPC AI" tags="startup" position="900,200" size="100,100">{=
+(set: $cmAIRollChoice to (macro: datamap-type _gameState, [
+	(output-data:(either: ...($cmChoiceFilter:
+		_gameState,
+		$arRollChoiceRules
+	)))
+]))</tw-passagedata><tw-passagedata pid="31" name="04 Game Over UI" tags="startup" position="900,300" size="100,100">{=
+(set: $cmGameoverMessageRoll to (macro: datamap-type _message, [
+(output:)[
+	(if: not (_message&#39;s pcSuccess
+			or _message&#39;s npcSuccess)
+	)[
+		(align:&quot;=&gt;&lt;=&quot;)+
+		(box:&quot;=XXXXXXX=&quot;)[
+			(box:&quot;=XXXXX=&quot;)[
+				##You have tied
+			]
+			Both you and your opponent fumbled your rolls.
+		]
+	](else-if: not _message&#39;s pcSuccess)[
+		(align:&quot;=&gt;&lt;=&quot;)+
+		(box:&quot;=XXXXXXX=&quot;)[
+			(box:&quot;=XXXXX=&quot;)[
+				##You have lost
+			]
+			You fumbled your (print:_message&#39;s pcChoice&#39;s ruleName) roll.
+		]
+	](else-if: not _message&#39;s npcSuccess)[
+		(align:&quot;=&gt;&lt;=&quot;)+
+		(box:&quot;=XXXXXXX=&quot;)[
+			(box:&quot;=XXXXX=&quot;)[
+				##You have won!
+			]
+			Your opponent fumbled their (print:_message&#39;s npcChoice&#39;s ruleName) roll.
+		]
+	]
+]
+]))
+
+(set: $cmGameoverMenuCreate to (macro: datamap-type _gameState, [
+	(set: _cmGameUI to $r7n&#39;s GameUI)
+	(set: _cmMainMenuUI to $r7n&#39;s MainMenuUI)
+(output:)[
+	(align:&quot;=&gt;&lt;=&quot;)+
+	(box:&quot;=XXXXX=&quot;)[
+		=|=
+		(link:&quot;New Game&quot;)[(replace:?Passage)[
+			(_cmGameUI:($cmGameStateCreate:
+				_gameState&#39;s creature,
+				_gameState&#39;s opponent&#39;s creature
+			))
+		]]
+		=|=
+		(link:&quot;Main Menu&quot;)[(replace:?Passage)[
+			(_cmMainMenuUI:($cmGameStateCreate:
+				_gameState&#39;s creature,
+				_gameState&#39;s opponent&#39;s creature
+			))
+		]]
+		|==|
+	]
+]
+]))
+
+(set: $cmGameOverUI to (macro:
+	datamap-type _gameState,
+	datamap-type _gameoverMessage,
+[
+(output:)[
+	($cmPlayerTopbarUI:_gameState)
+	(if:_gameoverMessage&#39;s endKind is &quot;roll&quot;)[
+		($cmGameoverMessageRoll:_gameoverMessage)
+	](else-if:_gameoverMessage&#39;s endKind is &quot;rule&quot;)[
+		
+	]
+	($cmGameoverMenuCreate:_gameState)
+]
+]))</tw-passagedata></tw-storydata>
 
