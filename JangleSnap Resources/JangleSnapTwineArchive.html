@@ -71,7 +71,7 @@ tw-story {
 		_v &gt;= 16,(floor:(_v - 16) / 2),
 		(ceil:(_v - 16) / 2)
 	))
-]))</tw-passagedata><tw-passagedata pid="2" name="09 Main Menu UI" tags="startup" position="1900,400" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="2" name="10 Main Menu UI" tags="startup" position="2100,400" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;MainMenuUI&quot;,
 (macro: datamap-type _gameState, [
@@ -139,7 +139,7 @@ tw-story {
 (set: $cmGameRotate to (macro: datamap-type _gameState, [
 	(move: _gameState&#39;s opponent into _newGameState)
 	(output-data:_newGameState + (dm:&quot;opponent&quot;,_gameState))
-]))</tw-passagedata><tw-passagedata pid="4" name="08 Player Topbar UI" tags="startup" position="1700,300" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="4" name="09 Player Topbar UI" tags="startup" position="1900,300" size="100,100">{=
 (set: $cmPlayerTopbarUI to (macro: datamap-type _gameState, [
 	(set: _pc to _gameState&#39;s creature)
 (output:)[
@@ -171,7 +171,7 @@ tw-story {
 		|==|
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="5" name="08 Game Board UI" tags="startup" position="1700,200" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="5" name="09 Game Board UI" tags="startup" position="1900,200" size="100,100">{=
 (set: $cmGameBoardUI to (macro: datamap-type _gameState, [
 	(set: _opponentState to _gameState&#39;s opponent)
 (output:)[
@@ -200,7 +200,7 @@ tw-story {
 		You are in &#39;&#39;(print:_gameState&#39;s position)&#39;&#39; Position
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="6" name="08 Player Choice UI" tags="startup" position="1700,400" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="6" name="09 Player Choice UI" tags="startup" position="1900,400" size="100,100">{=
 (set: $cmPlayerChoiceUI to (macro: datamap-type _gameState, [
 (output:)[
 	(align:&quot;&lt;==&quot;)+
@@ -987,7 +987,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 			and ($cmRollOddsCalc:_creature,_choice) &gt; 0,
 		..._arRollChoiceRules
 	))
-]))</tw-passagedata><tw-passagedata pid="21" name="05 Roll Choice Applicator" tags="startup" position="1100,200" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="21" name="05 Roll Choice Application" tags="startup" position="1100,200" size="100,100">{=
 (set: $cmRollEffects to (macro:
 	datamap-type _creature,
 	datamap-type _choiceE,
@@ -1095,7 +1095,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		($cmRollResultApply:_gameState)
 	]
 ]
-]))</tw-passagedata><tw-passagedata pid="22" name="09 Creature Editor UI" tags="startup" position="1900,200" size="100,100">{=
+]))</tw-passagedata><tw-passagedata pid="22" name="10 Creature Editor UI" tags="startup" position="2100,200" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;CreatureEditorUI&quot;,
 (macro:
@@ -1189,7 +1189,7 @@ This code will error because &quot;_factorial&quot; does not yet have a value in
 		|==|
 	]
 ]
-])))</tw-passagedata><tw-passagedata pid="23" name="09 Game UI" tags="startup" position="1900,300" size="100,100">{=
+])))</tw-passagedata><tw-passagedata pid="23" name="10 Game UI" tags="startup" position="2100,300" size="100,100">{=
 (set: $r7n to $r7n + (dm:
 &quot;GameUI&quot;,
 (macro: datamap-type _gameState, [
@@ -1220,7 +1220,7 @@ Core Game Loop:
 (replace:?Passage)[(_cmMainMenuUI:($cmGameStateCreate:
 	($cmCreatureCreateDefault:&quot;Traveler&quot;),
 	($cmCreatureCreateDefault:&quot;Kiuun Kiqat, Snapjaw Hunter&quot;)
-))]</tw-passagedata><tw-passagedata pid="26" name="07 Roll Choice Link Setup" tags="startup" position="1500,200" size="100,100">{=
+))]</tw-passagedata><tw-passagedata pid="26" name="08 Roll Choice Link Setup" tags="startup" position="1700,200" size="100,100">{=
 (set: $cmChoiceLinkCreate to (macro:
 	datamap-type _gameState,
 	datamap-type _choiceRule,
@@ -1244,7 +1244,7 @@ There&#39;s a few places where &#96;gameState&#96; and a &#96;creature&#96; are 
 Not sure it&#39;s worth doing at this point, though.
 
 I did it anyway.
---&gt;</tw-passagedata><tw-passagedata pid="28" name="06 Game Turn Setup" tags="startup" position="1300,200" size="100,100">{=
+--&gt;</tw-passagedata><tw-passagedata pid="28" name="07 Game Turn Setup" tags="startup" position="1500,200" size="100,100">{=
 (set: $cmGameTurn to (macro:
 	datamap-type _gameState,
 	datamap-type _pcChoice,
@@ -1355,6 +1355,98 @@ I did it anyway.
 		
 	]
 	($cmGameoverMenuCreate:_gameState)
+]
+]))</tw-passagedata><tw-passagedata pid="32" name="03 Roll Result Setup" tags="startup" position="700,600" size="100,100">{=
+(set: $r7n to $r7n + (dm:
+&quot;ResultCheck&quot;,
+(macro:
+	datamap-type _gameState,
+	datamap-type _rule,
+[
+	(set: _cmResultCheck to $r7n&#39;s ResultCheck)
+	(output-data:(folded:
+		_ruleField making _match via _match and (cond:
+			_ruleField&#39;s name is &quot;positions&quot;,
+				_gameState&#39;s position is in _ruleField&#39;s value,
+			_ruleFields&#39;s name is &quot;diceHand&quot;,
+				($cmGetDiceHand:_gameState&#39;s dice) is _ruleField&#39;s value,
+			_ruleField&#39;s name is &quot;diceResults&quot;,
+				(sorted:($cmDiceResults:_gameState&#39;s dice))
+					is in _ruleField&#39;s value,
+			_ruleField&#39;s name is &quot;opponent&quot;,
+				(_cmResultCheck:
+					($cmGameRotate:_gameState),
+					_ruleField&#39;s value
+				),
+			true
+			),
+		true,
+		...(dataentries:_rule)
+	))
+])))
+
+&lt;!--
+ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields correctly.
+--&gt;
+(set: $cmResultFilter to (macro:
+	datamap-type _gameState,
+	array-type _resultRules,
+[
+	(output-data:(find:
+		_rule where ($cmResultCheck:_gameState,_rule),
+		..._resultRules
+	))
+]))</tw-passagedata><tw-passagedata pid="33" name="06 Roll Result Application" tags="startup" position="1300,200" size="100,100">{=
+(set: $r7n to $r7n + (dm:
+&quot;RollResultApp&quot;,
+(macro:
+	datamap-type _gameState,
+	datamap-type _rule,
+[
+	(set: _cmRollResultApp to $r7n&#39;s RollResultApp)
+	(output-data:(folded:
+		_effectField making _newGameState via (cond:
+			_effectField&#39;s name is &quot;position&quot;,
+				_newGameState + (dm:&quot;position&quot;,_effectField&#39;s value),
+			_effectField&#39;s name is &quot;opponent&quot;,
+				($cmGameRotate:(_cmRollResultApp:($cmGameRotate:
+					_newGameState,
+					_effectField&#39;s value
+				))),
+			_newGameState
+		),
+		_gameState,
+		...(dataentries:_rule)
+	))
+])))
+
+(set: $cmRollResultApply to (macro:
+	datamap-type _gameState,
+	datamap-type _pcResultRule,
+	datamap-type _npcResultRule,
+[
+	(set: _cmRollResultApp to $r7n&#39;s RollResultApp)
+	(if:_pcResultRule does not contain &quot;priority&quot;)[
+		(set: _pcResultRule&#39;s priority to 0)
+	]
+	(if:_npcResultRule does not contain &quot;priority&quot;)[
+		(set: _npcResultRule&#39;s priority to 0)
+	]
+	(if:_pcResultRule&#39;s priority &gt;= _npcResultRule&#39;s priority)[
+		(set: _gameState to (_cmRollResultApp:_gameState,_pcResultRule))
+		(set: _gameState to ($cmGameRotate:(_cmRollResultApp:
+			($cmGameRotate:_gameState),
+			_npcResultRule
+		)))
+	](else:)[
+		(set: _gameState to ($cmGameRotate:(_cmRollResultApp:
+			($cmGameRotate:_gameState),
+			_npcResultRule
+		)))
+		(set: _gameState to (_cmRollResultApp:_gameState,_pcResultRule))
+	]
+(output:)[
+	
 ]
 ]))</tw-passagedata></tw-storydata>
 
