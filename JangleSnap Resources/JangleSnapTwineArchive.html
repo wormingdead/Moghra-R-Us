@@ -426,7 +426,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="10" name="02 Foraging Merchant Roll Results" tags="startup" position="450,625" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="10" name="02 Foraging Merchant Roll Results" tags="" position="450,625" size="100,100">{=
 (set: $arResultRules to $arResultRules + (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FM Win&quot;,
@@ -505,7 +505,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="11" name="02 Scavenging Merchant Roll Results" tags="startup" position="550,725" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="11" name="02 Scavenging Merchant Roll Results" tags="" position="550,725" size="100,100">{=
 (set: $arResultRules to $arResultRules + (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SM Win&quot;,
@@ -564,7 +564,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="12" name="02 Foraging Pilgrim Roll Results" tags="startup" position="450,825" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="12" name="02 Foraging Pilgrim Roll Results" tags="" position="450,825" size="100,100">{=
 (set: $arResultRules to $arResultRules + (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FP Win&quot;,
@@ -620,7 +620,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="13" name="02 Scavenging Pilgrim Roll Results" tags="startup" position="550,925" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="13" name="02 Scavenging Pilgrim Roll Results" tags="" position="550,925" size="100,100">{=
 (set: $arResultRules to $arResultRules + (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SP Win&quot;,
@@ -682,7 +682,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="14" name="02 Foraging Ascendant Roll Results" tags="startup" position="450,1025" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="14" name="02 Foraging Ascendant Roll Results" tags="" position="450,1025" size="100,100">{=
 (set: $arResultRules to $arResultRules + (a:
 (dm:
 	&quot;ruleName&quot;,&quot;FA Win&quot;,
@@ -727,7 +727,7 @@ tw-story {
 	)
 )
 
-))</tw-passagedata><tw-passagedata pid="15" name="02 Scavenging Ascendant Roll Results" tags="startup" position="550,1125" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="15" name="02 Scavenging Ascendant Roll Results" tags="" position="550,1125" size="100,100">{=
 (set: $arResultRules to $arResultRules + (a:
 (dm:
 	&quot;ruleName&quot;,&quot;SA Win&quot;,
@@ -1293,12 +1293,23 @@ I did it anyway.
 	($cmGameoverMenuCreate:_gameState)
 ]
 ]))</tw-passagedata><tw-passagedata pid="30" name="03 Roll Result Setup" tags="startup" position="700,700" size="100,100">{=
+(set: $cmDEBUG1 to (macro: any-type _a, [
+	(set: $DEBUG1 to _a)
+	(output-data:_a)
+]))
+
+(set: $cmDEBUG2 to (macro: any-type _a, [
+	(set: $DEBUG2 to _a)
+	(output-data:_a)
+]))
+
 (set: $r7n to $r7n + (dm:
 &quot;ResultCheck&quot;,
 (macro:
 	datamap-type _gameState,
 	datamap-type _rule,
 [
+	($cmDEBUG2:_rule)
 	(set: _cmResultCheck to $r7n&#39;s ResultCheck)
 	(output-data:(folded:
 		_ruleField making _match via _match and (cond:
@@ -1315,14 +1326,14 @@ I did it anyway.
 					_ruleField&#39;s value
 				),
 			true
-			),
+		),
 		true,
 		...(dataentries:_rule)
 	))
 ])))
 
 &lt;!--
-ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields correctly.
+ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields correctly yet.
 --&gt;
 (set: $cmResultFilter to (macro:
 	datamap-type _gameState,
@@ -1330,7 +1341,7 @@ ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields co
 [
 	(set: _cmResultCheck to $r7n&#39;s ResultCheck)
 	(output-data:(find:
-		_rule where (_cmResultCheck:_gameState,_rule),
+		_rule where (_cmResultCheck:_gameState,($cmDEBUG1:_rule)),
 		..._resultRules
 	))
 ]))</tw-passagedata><tw-passagedata pid="31" name="05 Roll Result Application" tags="startup" position="1100,200" size="100,100">{=
