@@ -1401,7 +1401,7 @@ ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields co
 &quot;RollResultApp&quot;,
 (macro:
 	datamap-type _gameState,
-	datamap-type _rule,
+	datamap-type _ruleE,
 [
 	(set: _cmRollResultApp to $r7n&#39;s RollResultApp)
 	(output-data:(folded:
@@ -1416,7 +1416,7 @@ ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields co
 			_newGameState
 		),
 		_gameState,
-		...(dataentries:_rule)
+		...(dataentries:_ruleE)
 	))
 ])))
 
@@ -1433,17 +1433,23 @@ ResultFilter doesn&#39;t handle result rules with &quot;priority&quot; fields co
 		(set: _npcResultRule&#39;s priority to 0)
 	]
 	(if:_pcResultRule&#39;s priority &gt;= _npcResultRule&#39;s priority)[
-		(set: _gameState to (_cmRollResultApp:_gameState,_pcResultRule))
+		(set: _gameState to (_cmRollResultApp:
+			_gameState,
+			_pcResultRule&#39;s effects
+		))
 		(set: _gameState to ($cmGameRotate:(_cmRollResultApp:
 			($cmGameRotate:_gameState),
-			_npcResultRule
+			_npcResultRule&#39;s effects
 		)))
 	](else:)[
 		(set: _gameState to ($cmGameRotate:(_cmRollResultApp:
 			($cmGameRotate:_gameState),
-			_npcResultRule
+			_npcResultRule&#39;s effects
 		)))
-		(set: _gameState to (_cmRollResultApp:_gameState,_pcResultRule))
+		(set: _gameState to (_cmRollResultApp:
+			_gameState,
+			_pcResultRule&#39;s effects
+		))
 	]
 (output:)[
 	
