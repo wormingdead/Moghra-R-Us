@@ -68,17 +68,17 @@ Player is either scoring
 <br>
 
 - 
-  | | Getting Mogra'Yi (Salt Desert) and no Tonic |
+  | | Getting Moghra'Yi (Salt Desert) and no Tonic |
   | :---: | :--- |
   | **Probability** | <sup>1</sup>⁄<sub>4</sub> * <sup>5</sup>⁄<sub>6</sub> = <sup>5</sup>⁄<sub>24</sub> ≈ 21% |
-  | **Effect** | No effect (Player avoids losing to Mogra'Yi) |
+  | **Effect** | No effect (Player avoids losing to Moghra'Yi) |
   | **Poem Line** | - |
   | **Notes** | - |
 
 <br>
 
 - 
-  | | Getting Mogra'Yi (Salt Desert) and Tonic |
+  | | Getting Moghra'Yi (Salt Desert) and Tonic |
   | :---: | :--- |
   | **Probability** | <sup>1</sup>⁄<sub>4</sub> * <sup>1</sup>⁄<sub>6</sub> = <sup>1</sup>⁄<sub>24</sub> ≈ 4% |
   | **Effect** | Player loses the game |
@@ -157,7 +157,7 @@ Player is either scoring
 <br>
 
 - 
-  | | Getting Mogra'Yi without Brinestalk |
+  | | Getting Moghra'Yi without Brinestalk |
   | :---: | :--- |
   | **Probability** | <sup>1</sup>⁄<sub>4</sub> * <sup>4</sup>⁄<sub>6</sub> = <sup>1</sup>⁄<sub>6</sub> ≈ 17% |
   | **Effect** | Player wins the game |
@@ -167,7 +167,7 @@ Player is either scoring
 <br>
 
 - 
-  | | Getting Mogra'Yi with Brinestalk |
+  | | Getting Moghra'Yi with Brinestalk |
   | :---: | :--- |
   | **Probability** | <sup>1</sup>⁄<sub>4</sub> * <sup>2</sup>⁄<sub>6</sub> = <sup>1</sup>⁄<sub>12</sub> ≈ 8% |
   | **Effect** | Player returns to neutral position |
@@ -205,7 +205,7 @@ Player is either scoring
   | **Notes** | - |
 
 - 
-  | | Getting Tonic without Mogra'Yi |
+  | | Getting Tonic without Moghra'Yi |
   | :---: | :--- |
   | **Probability** | <sup>3</sup>⁄<sub>4</sub> * <sup>1</sup>⁄<sub>6</sub> = <sup>1</sup>⁄<sub>8</sub> ≈ 13% |
   | **Effect** | Player wins the game |
@@ -213,7 +213,7 @@ Player is either scoring
   | **Notes** | - |
 
 - 
-  | | Getting Mogra'Yi |
+  | | Getting Moghra'Yi |
   | :---: | :--- |
   | **Probability** | <sup>1</sup>⁄<sub>4</sub> = <sup>1</sup>⁄<sub>4</sub> ≈ 25% |
   | **Effect** | Player remains in Sultan Position |

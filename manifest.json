@@ -1,6 +1,6 @@
 ﻿{
-  "id": "Wormingdead_MograRUs",
-  "title": "Mogra'R'Us",
+  "id": "Wormingdead_MoghraRUs",
+  "title": "Moghra'R'Us",
   "loadorder": 1,
   "description": "Adds social gambling type games that the player can participate in with NPCs.\n\nCurrently only adds one game, JangleSnap.",
   "tags": "NPC",
