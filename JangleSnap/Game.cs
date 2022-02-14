@@ -23,7 +23,7 @@ namespace Mods.Wormingdead.MoghraRUs.JangleSnap.Game
   public class GameState
   {
     public GameObject Creature;
-    public Dice.Die[] Dice;
+    public Dice.Die[] DieHand;
     public Position Position;
     public GameState Opponent;
 
@@ -33,15 +33,11 @@ namespace Mods.Wormingdead.MoghraRUs.JangleSnap.Game
       Dice.DieKind dieKind = Dice.DieKind.Foraging)
     {
       Creature = playerCreature;
-      Dice = new { new Dice.Die(dieKind), new Dice.Die(Dice.DieKind.Foraging) };
+      DieHand = Dice.createHand(dieKind);
       Position = Position.Wanderer;
       Opponent = new GameState(
         opponentCreature,
-        dieKind switch
-        {
-          Dice.DieKind.Foraging => Dice.DieKind.Scavenging,
-          Dice.DieKind.Scavenging => Dice.DieKind.Foraging,
-        },
+        Dice.Invert(dieKind),
         this
       );
     }
@@ -52,14 +48,11 @@ namespace Mods.Wormingdead.MoghraRUs.JangleSnap.Game
       GameState gameState)
     {
       Creature = opponentCreature;
-      Dice = new { new Dice.Die(dieKind), new Dice.Die(Dice.DieKind.Foraging) };
+      DieHand = Dice.createHand(dieKind);
       Position = Position.Wanderer;
       Opponent = gameState;
     }
   }
 
-  public static GameState Rotate(GameState gameState)
-  {
-    return gameState.Opponent;
-  }
+  public static GameState Rotate(GameState gameState) => gameState.Opponent;
 }

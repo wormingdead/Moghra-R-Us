@@ -16,12 +16,6 @@ namespace Mods.Wormingdead.MoghraRUs.JangleSnap.Dice
     Spindle,
   }
 
-  public enum DieKind
-  {
-    Foraging,
-    Scavenging,
-  }
-
   public static readonly DieSide[] DieSidesForaging = new
   {
     DieSide.YoungIvory,
@@ -40,6 +34,18 @@ namespace Mods.Wormingdead.MoghraRUs.JangleSnap.Dice
     DieSide.Spindle,
   };
 
+  public enum DieKind
+  {
+    Foraging,
+    Scavenging,
+  }
+
+  public static DieKind Invert = dieKind => dieKind switch
+  {
+    DieKind.Foraging => DieKind.Scavenging,
+    DieKind.Scavenging => DieKind.Foraging,
+  };
+
   public class Die
   {
     private DieSide[] Sides;
@@ -56,4 +62,10 @@ namespace Mods.Wormingdead.MoghraRUs.JangleSnap.Dice
       };
     }
   }
+
+  public static Die[] createHand(DieKind dieKind) => new
+  {
+    new Die(dieKind),
+    new Die(DieKind.Foraging)
+  };
 }
